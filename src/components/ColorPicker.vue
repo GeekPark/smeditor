@@ -1,12 +1,13 @@
 <template>
   <span class="ql-picker-options" v-show='isDisplay'>
-    <span v-for='(color, index) in colors' data-light="light" class="ql-picker-item ql-primary" :data-value="color" v-bind:style="{backgroundColor: color}" v-on:click='handleColorClick(index)'>
-      <span class="color-name-tip">{{names[index]}}</span>
+    <span v-for='(color, index) in colors' data-light="light" class="ql-picker-item ql-primary" :data-value="color" v-bind:style="{backgroundColor: color}" v-on:click='handleColorClick(index)' v-on:mouseover='handleColorHover(index)' v-bind:title='names[index]'>
     </span>
     <input type="text" class="color-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="6" v-model='selectColor'>
   </span>
 </template>
 <script type="text/javascript">
+import tippy from 'tippy.js'
+
 export default {
   name: 'ColorPicker',
   data () {
@@ -19,8 +20,11 @@ export default {
   },
   props: ['ColorPickerClick'],
   methods: {
+    handleColorHover (index) {
+      this.selectColor = this.colors[index]
+      tippy(document.querySelectorAll('.ql-picker-options span')[index])
+    },
     handleColorClick (index) {
-      console.log('233')
       this.selectColor = this.colors[index]
       this.ColorPickerClick(this.selectColor)
     }
@@ -48,10 +52,17 @@ export default {
   margin: 2px;
   padding: 0;
   width: 16px;
+  cursor: pointer;
+  /*position: relative;*/
 }
 
 .color-name-tip {
-  display: none;
+  /*background-color: transparent;*/
+/*  position: absolute;
+  z-index: 2;
+  display: flex;
+  background-color: #000;
+  color: #fff;*/
 }
 
 input {

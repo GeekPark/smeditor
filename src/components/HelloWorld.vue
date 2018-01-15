@@ -1,10 +1,10 @@
 <template>
   <div class="smeditor" id="smeditor">
     <div class="buttons">
-      <button v-for='(key, value) in icons.basic' @click='basicStyle(value)'>
-        <span v-html='key'></span>
+      <button v-for='(icon, name) in icons.basic' @click='basicStyle(name)' v-bind:class="{buttonsActive: styles.indexOf(name) > -1}">
+        <span v-html='icon'></span>
       </button>
-      <button >
+      <button>
         <span v-html='icons.color' v-on:click="isColorPickerShow = !isColorPickerShow">
         </span>
         <color-picker v-bind:ColorPickerClick="ColorPickerClick" v-show="isColorPickerShow"></color-picker >
@@ -30,6 +30,12 @@
 <script>
 import icons from './icons.js'
 import ColorPicker from './ColorPicker.vue'
+const remove = function (arr, val) {
+  let index = arr.indexOf(val)
+  if (index > -1) {
+    arr.splice(index, 1)
+  }
+}
 export default {
   name: 'smeditor',
   components: {
@@ -57,11 +63,14 @@ export default {
     basicStyle (name) {
       console.log(name)
       document.execCommand(name, false, null)
-      // if (this.styles.indexOf(name) === -1) {
-      //   this.styles.push(name)
-      // }
+      if (this.styles.indexOf(name) === -1) {
+        this.styles.push(name)
+      } else {
+        remove(this.styles, name)
+      }
     },
     mouseup () {
+      console.log(window.getSelection())
       const str = window.getSelection().toString()
       if (str.length < 1) {
         return false
@@ -72,6 +81,8 @@ export default {
       }, 1500)
     },
     ColorPickerClick (color) {
+      document.querySelector('.ql-color-label').style.fill = color
+      document.execCommand('forecolor', false, color)
       setTimeout(() => {
         this.isColorPickerShow = false
       }, 200)
@@ -141,6 +152,10 @@ export default {
 
 .buttons button:hover {
   border-color: #BFBFBF;
+}
+
+.buttonsActive {
+  border: 1px solid #BFBFBF !important;
 }
 
 svg {
