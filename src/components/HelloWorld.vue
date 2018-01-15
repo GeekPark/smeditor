@@ -1,6 +1,10 @@
 <template>
   <div class="smeditor" id="smeditor">
     <div class="buttons">
+      <button class="font-size" v-on:click="isFontSizePickerShow = !isFontSizePickerShow">
+        <button> {{fontSize}} </button>
+        <font-size-picker v-bind:FontSizePickerClick="FontSizePickerClick" v-show="isFontSizePickerShow"></font-size-picker>
+      </button>
       <button v-for='(icon, name) in icons.basic' @click='basicStyle(name)' v-bind:class="{buttonsActive: styles.indexOf(name) > -1}">
         <span v-html='icon'></span>
       </button>
@@ -30,6 +34,7 @@
 <script>
 import icons from './icons.js'
 import ColorPicker from './ColorPicker.vue'
+import FontSizePicker from './FontSizePicker.vue'
 const remove = function (arr, val) {
   let index = arr.indexOf(val)
   if (index > -1) {
@@ -39,7 +44,8 @@ const remove = function (arr, val) {
 export default {
   name: 'smeditor',
   components: {
-    'color-picker': ColorPicker
+    'color-picker': ColorPicker,
+    'font-size-picker': FontSizePicker
   },
   data () {
     return {
@@ -49,8 +55,11 @@ export default {
       styles: [],
       // 调色盘是否显示
       isColorPickerShow: false,
+      isFontSizePickerShow: false,
       // 选中文字
-      selectWords: ''
+      selectWords: '',
+      // 字号
+      fontSize: 16
     }
   },
   methods: {
@@ -70,7 +79,6 @@ export default {
       }
     },
     mouseup () {
-      console.log(window.getSelection())
       const str = window.getSelection().toString()
       if (str.length < 1) {
         return false
@@ -79,6 +87,13 @@ export default {
       setTimeout(() => {
         this.selectWords = ''
       }, 1500)
+    },
+    FontSizePickerClick (size, index) {
+      document.execCommand('FontSize', false, index + 1)
+      this.fontSize = size
+      setTimeout(() => {
+        this.isFontSizePickerShow = false
+      }, 200)
     },
     ColorPickerClick (color) {
       document.querySelector('.ql-color-label').style.fill = color
@@ -128,6 +143,7 @@ export default {
 .buttons {
   text-align: left;
   padding: 1px 0px;
+
 }
 
 .buttons button {
@@ -195,5 +211,14 @@ svg {
   transition: all 0.3s;
 }
 
+.font-size {
+  vertical-align: super !important;
+}
+
+.font-size button {
+  font-size: 14px;
+  color: #333;
+  border: none;
+}
 
 </style>
