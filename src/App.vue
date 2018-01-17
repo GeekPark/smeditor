@@ -23,5 +23,6 @@ html, body {
   background-color: rgb(240,240,240);
   padding-top: 50px;
   height: calc(100% - 50px);
+  overflow-y: scroll;
 }
 </style>
