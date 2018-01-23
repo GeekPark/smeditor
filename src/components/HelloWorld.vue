@@ -104,7 +104,7 @@ export default {
         <br><div class="image-desc">
           <img class="uploaded-img" src="https://ws2.sinaimg.cn/large/006tNc79ly1fni9fylw8zj30fa0a13yt.jpg" width="auto" height="auto">
           <br>
-          <div class="image-caption"></div>
+          <div class="image-caption"><span>.</span></div>
         </div><br>
       `)
     },
@@ -132,15 +132,23 @@ export default {
     focus('.input-area')
     document.execCommand('insertHTML', false, '<p><br></p>')
     this.insertImage()
-    let el
+    //
     document.querySelector('.input-area').onkeypress = function (event) {
-      if (document.getSelection().focusNode.className !== undefined) {
-        el = document.getSelection().focusNode
-      }
-      if (event.keyCode === 13 && el.className === 'image-caption') {
+      const el = getSelectedNode()
+      if (event.keyCode === 13 && isImageCaption(el)) {
         document.execCommand('removeFormat', false, '')
         this.innerHTML = this.innerHTML + '<p><br></p>'
         document.getSelection().collapse(this, this.childNodes.length - 1)
+        return false
+      }
+    }
+    // 删除
+    document.querySelector('.input-area').onkeydown = function (event) {
+      const el = getSelectedNode()
+      if (event.keyCode === 8 && isImageDesc(el)) {
+        el.innerHTML = '<p></p>'
+      }
+      if (event.keyCode === 8 && isImageCaption(el) && el.innerHTML.length === 1) {
         return false
       }
     }
@@ -161,6 +169,24 @@ export default {
 //   }
 //   return cursorIndex
 // }
+function isImageCaption (el) {
+  return el.className === 'image-caption'
+}
+
+function isImageDesc (el) {
+  return el.className === 'image-desc'
+}
+
+function getSelectedNode () {
+  if (document.selection) {
+    return document.selection.createRange().parentElement()
+  } else {
+    let selection = window.getSelection()
+    if (selection.rangeCount > 0) {
+      return selection.getRangeAt(0).startContainer.parentNode
+    }
+  }
+}
 </script>
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
