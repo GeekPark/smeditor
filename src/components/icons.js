@@ -41,9 +41,31 @@ export default {
         c0,0.2-0.1,0.4-0.2,0.5C2.1,9.6,2,9.6,1.9,9.7c0.1,0,0.2,0.1,0.3,0.2c0.2,0.2,0.3,0.4,0.3,0.7c0,0.3-0.1,0.6-0.3,0.8
         s-0.5,0.3-0.9,0.3c-0.5,0-0.8-0.2-1-0.5C0.1,11,0,10.7,0,10.5H0.7z M4.9,1.5h8v1h-8V1.5z M4.9,5.5h8v1h-8V5.5z M4.9,9.5h8v1h-8
         V9.5z"></path> </g> </g> </g> </svg>`,
-  listBullet: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 27" style="enable-background:new 0 0 30 27" xml:space="preserve"> <title>无序列表 1x</title> <desc>Created with Sketch.</desc> <g id="Page-1"> <g id="无序列表-1x"> <g id="btn-list" transform="translate(7.500000, 8.000000)"> <path id="Combined-Shape" d="M1,0h1c0.3,0,0.5,0.2,0.5,0.5V2H1C0.7,2,0.5,1.8,0.5,1.5v-1l0,0C0.5,0.2,0.7,0,1,0L1,0z
+  listUnordered: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 27" style="enable-background:new 0 0 30 27" xml:space="preserve"> <title>无序列表 1x</title> <desc>Created with Sketch.</desc> <g id="Page-1"> <g id="无序列表-1x"> <g id="btn-list" transform="translate(7.500000, 8.000000)"> <path id="Combined-Shape" d="M1,0h1c0.3,0,0.5,0.2,0.5,0.5V2H1C0.7,2,0.5,1.8,0.5,1.5v-1l0,0C0.5,0.2,0.7,0,1,0L1,0z
          M1,4h1c0.3,0,0.5,0.2,0.5,0.5V6H1C0.7,6,0.5,5.8,0.5,5.5v-1C0.5,4.2,0.7,4,1,4L1,4z M1,8h1c0.3,0,0.5,0.2,0.5,0.5V10H1
         c-0.3,0-0.5-0.2-0.5-0.5v-1C0.5,8.2,0.7,8,1,8L1,8z M4.5,1h9v1h-9V1z M4.5,5h9v1h-9V5z M4.5,9h9v1h-9V9z"></path> </g> </g> </g> </svg>`,
   listCheck: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 27" style="enable-background:new 0 0 30 27" xml:space="preserve"> <title>任务列表 1x</title> <desc>Created with Sketch.</desc> <g id="Page-1"> <g id="任务列表-1x"> <g id="btn-todo" transform="translate(9.000000, 8.000000)"> <path id="Combined-Shape" d="M11,10.5V11H0v-0.5V0h0.5H8v1H1v9h9V5h1V10.5z M3.6,4l1.9,1.9L10.3,1h2.1l-7,7L4.9,7.4
-        L1.5,4H3.6z"></path> </g> </g> </g> </svg>`
+        L1.5,4H3.6z"></path> </g> </g> </g> </svg>`,
+  indent: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 27" style="enable-background:new 0 0 30 27;" xml:space="preserve"><title>增加缩进 1x</title><desc>Created with Sketch.</desc>
+        <g id="Page-1">
+          <g id="增加缩进-1x">
+            <g id="btn-tab" transform="translate(7.500000, 8.000000)">
+              <path id="Combined-Shape" d="M1.5,2.5l3,3l-3,3V2.5z M0.5,0h13v1h-13V0z M0.5,10h13v1h-13V10z M6.5,3h6v1h-6V3z
+                 M6.5,5h6v1h-6V5z M6.5,7h6v1h-6V7z"></path>
+            </g>
+          </g>
+        </g>
+        </svg>`,
+  outdent: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 27" style="enable-background:new 0 0 30 27;" xml:space="preserve">
+                  <title>减少缩进 1x</title>
+                  <desc>Created with Sketch.</desc>
+                  <g id="Page-1">
+                    <g id="减少缩进-1x">
+                      <g id="btn-shift-tab" transform="translate(8.000000, 8.000000)">
+                        <path id="Combined-Shape" d="M4,8.7L0.8,5.5L4,2.3V8.7z M0,0h13v1H0V0z M0,10h13v1H0V10z M6,7h6v1H6V7z M6,5h6v1H6V5
+                          z M6,3h6v1H6V3z"></path>
+                      </g>
+                    </g>
+                  </g>
+                  </svg>`
 }

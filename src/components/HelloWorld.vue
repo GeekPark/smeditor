@@ -9,15 +9,29 @@
         <span v-html='icon'></span>
       </button>
       <button>
-        <span v-html='icons.color' v-on:click="isColorPickerShow = !isColorPickerShow">
-        </span>
-        <color-picker v-bind:ColorPickerClick="ColorPickerClick" v-show="isColorPickerShow"></color-picker >
+        <span v-html='icons.color' v-on:click="isColorPickerShow = !isColorPickerShow"></span>
+        <color-picker v-bind:ColorPickerClick="ColorPickerClick" v-show="isColorPickerShow"></color-picker>
       </button>
-      <button class='insert-options' v-on:click="isInsertShow = !isInsertShow">
-        <button> 插入 </button>
+     <!--  <button class='insert-options' v-on:click="isInsertShow = !isInsertShow">
+        <span> 插入 </span>
         <insert-options v-bind:insertImage="insertImage" v-show="isInsertShow"></insert-options>
+      </button> -->
+      <button class='insert-ol' v-on:click='insertList("OrderedList")'>
+        <span v-html='icons.listOrdered'></span>
       </button>
-      <button v-on:click='insertImage'>23333</button>
+      <button class='insert-ul' v-on:click='insertList("UnorderedList")'>
+        <span v-html='icons.listUnordered'></span>
+      </button>
+      <button class='indent' v-on:click='indent'>
+        <span v-html='icons.indent'></span>
+      </button>
+      <button class='outdent' v-on:click='outdent'>
+        <span v-html='icons.outdent'></span>
+      </button>
+   <!--    <button class='insert-ul' v-on:click='insertCheck'>
+        <span v-html='icons.listCheck'></span>
+      </button> -->
+      <!-- <button v-on:click='insertImage'>23333</button> -->
     </div>
     <div
       contenteditable="true"
@@ -78,15 +92,6 @@ export default {
         return false
       }
     },
-    basicStyle (name) {
-      console.log(name)
-      document.execCommand(name, false, null)
-      if (this.styles.indexOf(name) === -1) {
-        this.styles.push(name)
-      } else {
-        remove(this.styles, name)
-      }
-    },
     mouseup () {
       const str = window.getSelection().toString()
       if (str.length < 1) {
@@ -96,6 +101,29 @@ export default {
       setTimeout(() => {
         this.selectWords = ''
       }, 1500)
+    },
+    FontSizePickerClick (size, index) {
+      document.execCommand('FontSize', false, index + 1)
+      this.fontSize = size
+      setTimeout(() => {
+        this.isFontSizePickerShow = false
+      }, 200)
+    },
+    basicStyle (name) {
+      console.log(name)
+      document.execCommand(name, false, null)
+      if (this.styles.indexOf(name) === -1) {
+        this.styles.push(name)
+      } else {
+        remove(this.styles, name)
+      }
+    },
+    ColorPickerClick (color) {
+      document.querySelector('.ql-color-label').style.fill = color
+      document.execCommand('forecolor', false, color)
+      setTimeout(() => {
+        this.isColorPickerShow = false
+      }, 200)
     },
     insertImage (size, index) {
       console.log('insert')
@@ -113,26 +141,35 @@ export default {
         this.isInsertShow = false
       }, 200)
     },
-    FontSizePickerClick (size, index) {
-      document.execCommand('FontSize', false, index + 1)
-      this.fontSize = size
-      setTimeout(() => {
-        this.isFontSizePickerShow = false
-      }, 200)
+    insertList (name) {
+      document.execCommand(`insert${name}`, false, '')
     },
-    ColorPickerClick (color) {
-      document.querySelector('.ql-color-label').style.fill = color
-      document.execCommand('forecolor', false, color)
-      setTimeout(() => {
-        this.isColorPickerShow = false
-      }, 200)
+    insertCheck () {
+      document.execCommand('insertHTML', false, `
+        <ul class="unchecked-list"><li class="unchecked">&nbsp</li></ul>
+      `)
+      document.querySelectorAll('.unchecked-list').forEach(ul => {
+        ul.childNodes.forEach(li => {
+          li.onclick = function (event) {
+            const name = event.target.className === 'unchecked' ? 'checked' : 'unchecked'
+            event.target.className = name
+            console.log(event.target.className)
+          }
+        })
+      })
+    },
+    indent () {
+      document.execCommand('indent')
+    },
+    outdent () {
+      document.execCommand('outdent')
     }
   },
   mounted () {
     focus('.input-area')
     document.execCommand('insertHTML', false, '<p><br></p>')
     this.insertImage()
-    //
+    // 回车事件
     document.querySelector('.input-area').onkeypress = function (event) {
       const el = getSelectedNode()
       if (event.keyCode === 13 && isImageCaption(el)) {
@@ -142,7 +179,7 @@ export default {
         return false
       }
     }
-    // 删除
+    // 删除事件
     document.querySelector('.input-area').onkeydown = function (event) {
       const el = getSelectedNode()
       if (event.keyCode === 8 && isImageDesc(el)) {
@@ -324,6 +361,24 @@ function getSelectedNode () {
   font-size: 14px;
   color: #333;
   border: none;
+}
+
+.unchecked-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.unchecked:before {
+  content: "\F402";
+  padding-left: 3px;
+  margin-right: 6px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.checked:before {
+  content: "\F402";
 }
 
 </style>
