@@ -67,5 +67,179 @@ export default {
                       </g>
                     </g>
                   </g>
-                  </svg>`
+                  </svg>`,
+  alignLeft: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 54" style="enable-background:new 0 0 60 54;" xml:space="preserve">
+<title>对齐</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="对齐">
+    <path id="Combined-Shape" d="M18,18h24v2H18V18z M18,26h24v2H18V26z M18,34h24v2H18V34z M18,22h16v2H18V22z M18,30h16
+      v2H18V30z"></path>
+  </g>
+</g>
+</svg>`,
+  alignCenter: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 54" style="enable-background:new 0 0 60 54;" xml:space="preserve">
+<title>对齐</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="对齐">
+    <path id="Combined-Shape" d="M18,18h24v2H18V18z M18,26h24v2H18V26z M18,34h24v2H18V34z M22,22h16v2H22V22z M22,30h16
+      v2H22V30z"></path>
+  </g>
+</g>
+</svg>`,
+  alignRight: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 54" style="enable-background:new 0 0 60 54;" xml:space="preserve">
+<title>对齐</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="对齐">
+    <path id="Combined-Shape" d="M18,18h24v2H18V18z M18,26h24v2H18V26z M18,34h24v2H18V34z M26,22h16v2H26V22z M26,30h16
+      v2H26V30z"></path>
+  </g>
+</g>
+</svg>`,
+  undo: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 27" style="enable-background:new 0 0 30 27;" xml:space="preserve">
+<title>撤销1x</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="撤销1x">
+    <path id="Combined-Shape" d="M12.9,15l1.6,2H7l1.7-7l1.6,1.9c0.9-0.8,2.9-1.8,6.3-1.8c5.3,0,7.4,5.4,7.4,5.4
+      S20.9,12,17.5,12C14.9,12,13.4,14,12.9,15z"></path>
+  </g>
+</g>
+</svg>`,
+  redo: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 27" style="enable-background:new 0 0 30 27;" xml:space="preserve">
+<title>重做</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="重做">
+    <path id="Combined-Shape" d="M16.131,15.012L14.492,17h7.5l-1.727-7l-1.58,1.916
+      c-0.934-0.751-2.855-1.802-6.293-1.802c-5.348,0-7.4,5.432-7.4,5.432s3.067-3.501,6.492-3.501
+      C14.047,12.044,15.541,14.018,16.131,15.012z"></path>
+  </g>
+</g>
+</svg>`,
+  removeFormat: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 27" style="enable-background:new 0 0 30 27;" xml:space="preserve">
+<title>清除格式 1x</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="清除格式-1x">
+    <g id="btn4" transform="translate(8.000000, 6.000000)">
+      <path id="Combined-Shape" d="M7.8,12H4.1H3.3l-3.4-3.4l8.1-8.1l6,6L8.6,12H7.8z M8.1,11l1.4-1.4L4.9,5L1.3,8.5
+        L3.8,11H8.1z M0.9,13h13v1h-13V13z"></path>
+    </g>
+  </g>
+</g>
+</svg>`,
+  insert: {
+    insertImage: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 17 17" style="enable-background:new 0 0 17 17;" xml:space="preserve">
+<title>图片 1x</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="图片-1x">
+    <g id="btn-bold" transform="translate(2.000000, 3.000000)">
+      <path id="Combined-Shape" d="M12,7.5V1H1v4.6L3.5,3l4.9,5.1L10.5,6L12,7.5z M0,0h13v11H0V0z M9,4C8.4,4,8,3.6,8,3
+        s0.4-1,1-1s1,0.4,1,1S9.6,4,9,4z"></path>
+    </g>
+  </g>
+</g>
+</svg>`,
+    insertTable: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 17 17" style="enable-background:new 0 0 17 17;" xml:space="preserve">
+<title>表格 1x</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="表格-1x">
+    <g id="Group-6" transform="translate(3.000000, 3.000000)">
+      <path id="Combined-Shape" d="M1,5h4V1H1V5z M1,6v4h4V6H1z M10,5V1H6v4H10z M10,6H6v4h4V6z M0,0h11v11H0V0z"></path>
+    </g>
+  </g>
+</g>
+</svg>`,
+    insertLink: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 17 17" style="enable-background:new 0 0 17 17;" xml:space="preserve">
+<title>超链接 1x</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="超链接-1x">
+    <path id="Combined-Shape" d="M6.083,9.762l1.21,1.21c-0.071,0.006-0.143,0.009-0.215,0.009H4.641
+      C3.182,10.981,2,9.799,2,8.341S3.182,5.7,4.641,5.7h2.438c1.458,0,2.641,1.182,2.641,2.641c0,0.31-0.053,0.608-0.152,0.884
+      l-1.08-1.08c-0.096-0.692-0.69-1.226-1.408-1.226H4.641c-0.785,0-1.422,0.637-1.422,1.422s0.637,1.422,1.422,1.422H6.083
+      L6.083,9.762z M10.917,6.919l-1.21-1.21C9.778,5.703,9.85,5.7,9.922,5.7h2.438C13.818,5.7,15,6.882,15,8.341
+      s-1.182,2.641-2.641,2.641H9.922c-1.458,0-2.641-1.182-2.641-2.641c0-0.31,0.053-0.608,0.152-0.884l1.08,1.08
+      c0.096,0.692,0.69,1.226,1.408,1.226h2.438c0.785,0,1.422-0.637,1.422-1.422s-0.637-1.422-1.422-1.422H10.917L10.917,6.919z"></path>
+  </g>
+</g>
+</svg>`,
+    insertLine: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 17 17" style="enable-background:new 0 0 17 17;" xml:space="preserve">
+<title>分割线 1x</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="分割线-1x">
+    <g id="Group" transform="translate(2.000000, 8.000000)">
+      <rect id="Rectangle-32" width="13" height="1"></rect>
+    </g>
+  </g>
+</g>
+</svg>`,
+    insertAttachment: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 17 17" style="enable-background:new 0 0 17 17;" xml:space="preserve">
+<title>附件 修正版</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="附件-修正版">
+    <g id="Combined-Shape">
+      <path d="M6.383,11.264c-0.267,0.268-0.267,0.703,0,0.971c0.267,0.268,0.699,0.268,0.966,0l5.273-5.301l0.604,0.607
+        l-5.274,5.302l-0.604-0.607l0.001-0.001l0.604,0.607c-0.6,0.603-1.573,0.603-2.173,0c-0.594-0.597-0.6-1.562-0.017-2.167l0,0
+        l3.381-3.399c0.167-0.168,0.437-0.168,0.604,0s0.167,0.439,0,0.607L6.383,11.264L6.383,11.264z M9.483,3.779l0.604,0.607
+        l-5.432,5.46L4.051,9.239L9.483,3.779z M9.483,3.779c1.033-1.039,2.709-1.039,3.742,0s1.033,2.723,0,3.762l-0.604-0.607
+        c0.7-0.704,0.7-1.845,0-2.548c-0.7-0.704-1.835-0.704-2.535,0L9.483,3.779z M9.12,14.337c-1.4,1.407-3.67,1.407-5.07,0
+        s-1.4-3.689,0-5.096l0.604,0.607c-1.067,1.072-1.067,2.811,0,3.883s2.796,1.072,3.863,0L9.12,14.337z M10.629,12.213
+        c0.167,0.168,0.167,0.439,0,0.607L9.12,14.337L8.516,13.73l1.509-1.517C10.192,12.046,10.462,12.046,10.629,12.213z"></path>
+      <path d="M6.585,15.442c-0.971,0-1.884-0.38-2.571-1.07c-1.406-1.413-1.417-3.705-0.034-5.133l0.032-0.032
+        c0,0,0.001-0.001,0.002-0.002L4.05,9.169l5.398-5.425l0,0l0.035-0.036c0.505-0.489,1.167-0.758,1.87-0.758
+        c0.721,0,1.397,0.282,1.906,0.794c1.04,1.044,1.052,2.737,0.035,3.796v0L13.26,7.576l-5.309,5.338L7.95,12.913
+        c-0.295,0.278-0.678,0.431-1.084,0.431c-0.424,0-0.822-0.166-1.122-0.468c-0.609-0.611-0.617-1.614-0.018-2.236L9.108,7.24
+        C9.197,7.15,9.317,7.1,9.444,7.1c0,0,0,0,0.001,0c0.127,0,0.247,0.05,0.337,0.141c0.186,0.187,0.186,0.491,0,0.677l-3.364,3.381
+        c-0.247,0.249-0.247,0.652,0,0.9c0.119,0.12,0.278,0.187,0.447,0.187c0.152,0,0.295-0.054,0.41-0.151l-0.006-0.007l0.048-0.032
+        l5.273-5.3c0.676-0.684,0.675-1.792-0.004-2.474c-0.329-0.331-0.767-0.513-1.232-0.513c-0.465,0-0.902,0.182-1.231,0.513
+        l-0.035,0.036l-5.4,5.428c-1.043,1.051-1.042,2.76,0.002,3.811c0.506,0.509,1.18,0.789,1.896,0.789
+        c0.716,0,1.389-0.28,1.895-0.789l1.51-1.518c0.186-0.186,0.488-0.186,0.674,0l0,0c0.187,0.187,0.187,0.491,0,0.678l-1.509,1.517
+        c-0.001,0.002-0.003,0.003-0.004,0.005L9.12,14.408v-0.001C8.438,15.075,7.539,15.442,6.585,15.442z M4.05,9.312
+        c-1.343,1.389-1.332,3.616,0.035,4.99c0.667,0.671,1.555,1.041,2.5,1.041c0.928,0,1.801-0.357,2.465-1.006l-0.534-0.536
+        c-0.521,0.506-1.204,0.784-1.93,0.784c-0.743,0-1.442-0.291-1.968-0.819c-1.072-1.078-1.084-2.826-0.035-3.919L4.05,9.312z
+         M8.586,13.73l0.534,0.535l1.474-1.48c0.146-0.148,0.146-0.389,0-0.537c-0.146-0.146-0.387-0.146-0.533,0L8.586,13.73z
+         M9.445,7.2C9.444,7.2,9.444,7.2,9.445,7.2c-0.102,0-0.195,0.04-0.267,0.111L5.798,10.71c-0.562,0.582-0.554,1.522,0.017,2.096
+        c0.281,0.282,0.654,0.438,1.051,0.438c0.379,0,0.737-0.142,1.014-0.401l-0.533-0.536c-0.133,0.116-0.302,0.18-0.48,0.18
+        c-0.196,0-0.38-0.076-0.519-0.216c-0.285-0.286-0.285-0.754,0-1.041l3.365-3.381c0.146-0.148,0.146-0.389,0-0.537
+        C9.641,7.239,9.546,7.2,9.445,7.2z M7.419,12.234l0.533,0.536l5.202-5.23l-0.533-0.536L7.419,12.234z M4.121,9.239l0.533,0.535
+        l5.362-5.389L9.483,3.85L4.121,9.239z M12.691,6.934l0.533,0.536c0.978-1.02,0.966-2.649-0.035-3.655
+        c-0.49-0.493-1.143-0.765-1.836-0.765c-0.676,0-1.313,0.259-1.799,0.73l0.532,0.536c0.344-0.328,0.792-0.507,1.267-0.507
+        c0.493,0,0.955,0.192,1.303,0.542C13.363,5.061,13.375,6.209,12.691,6.934z"></path>
+    </g>
+  </g>
+</g>
+</svg>`,
+    insertQuote: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 27" style="enable-background:new 0 0 30 27;" xml:space="preserve">
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="Artboard-5">
+    <path id="Combined-Shape" d="M8.718,9.465C9.84,8.137,11.355,7.268,13.003,7v2.713
+      c-1.115,0.419-1.891,1.034-2.319,1.845c-0.438,0.822-0.654,1.827-0.654,3.014v0.2h2.973L13,21H7.002l0.003-6.38
+      C6.937,12.724,7.551,10.88,8.718,9.465z M18.718,9.465C19.84,8.137,21.355,7.268,23.003,7v2.713
+      c-1.115,0.419-1.891,1.034-2.319,1.845c-0.438,0.822-0.654,1.827-0.654,3.014v0.2h2.973L23,21h-5.998l0.003-6.38
+      C16.937,12.724,17.551,10.88,18.718,9.465z"></path>
+  </g>
+</g>
+</svg>`,
+    insertBlock: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 17 17" style="enable-background:new 0 0 17 17;" xml:space="preserve">
+<title>代码块 1x</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="代码块-1x">
+    <g id="Group" transform="translate(2.000000, 3.000000)">
+      <path id="Combined-Shape" d="M11.5,11H12V0.5V0h-2v1h1v9h-1v1H11.5z M1.5,11H1V0h0.5H3v1H2v9h1v1H1.5z M0,5h1v1H0V5z
+         M12,5h1v1h-1V5z"></path>
+    </g>
+  </g>
+</g>
+</svg>`
+  }
 }

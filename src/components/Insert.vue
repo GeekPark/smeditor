@@ -1,23 +1,22 @@
 <template>
-  <div class="insert-options">
+  <div class="insert-options-items">
     <ul>
-      <li v-on:click='insertImageClick'>图片
-        <input id="img_input" type="file" accept="image/*"/>
+      <li v-for='(key, index) in Object.keys(icons.insert)'>
+        <input v-if='index === 0' id="img_input" type="file" accept="image/*"/>
+        <span v-html='icons.insert[key]' :class='key'></span>
+        <span>{{labels[index]}}</span>
       </li>
-      <li>表格</li>
-      <li>超链接</li>
-      <li>分割线</li>
-      <li>附件</li>
-      <li>代码块</li>
     </ul>
   </div>
 </template>
 <script type="text/javascript">
-
+import icons from './icons.js'
 export default {
   name: 'Insert',
   data () {
     return {
+      icons: icons,
+      labels: ['图片', '表格', '超链接', '分割线', '附件', '引用', '代码块']
     }
   },
   props: ['insertImage'],
@@ -31,35 +30,46 @@ export default {
 
 <style type="text/css">
 
-.insert-options {
-  width: 80px;
+.insert-options-items {
+  width: 120px;
   padding: 5px 0px;
   border-radius: 2px;
   position: absolute;
   box-shadow: 0 1px 2px #ccc;
   background-color: #fff;
-  margin-top: 10px;
+  margin-top: 35px;
   text-align: left;
+  z-index: 3;
 }
-.insert-options ul {
+.insert-options-items ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.insert-options ul li {
-  padding: 5px 10px;
+.insert-options-items ul li {
+  padding: 5px 20px;
   color: #333;
-  font-size: 14px;
+  font-size: 12px;
   position: relative;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
-.insert-options ul li:hover, .insertActive {
+.insert-options-items ul li:hover, .insertActive {
   background-color: #E5E5E5;
 }
 
-.insert-options #img_input {
+.insert-options-items svg {
+  width: 20px;
+  height: 20px;
+  top: 1px;
+  position: relative;
+  margin-right: 15px;
+}
+
+.insert-options-items #img_input {
   position: absolute;
   z-index: 2;
   top: 0;

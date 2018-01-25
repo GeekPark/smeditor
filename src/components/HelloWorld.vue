@@ -1,32 +1,50 @@
 <template>
   <div class="smeditor" id="smeditor">
     <div class="buttons">
-      <button class="font-size" v-on:click="isFontSizePickerShow = !isFontSizePickerShow">
-        <button> {{fontSize}} </button>
+      <button class='undo' v-on:click='undo' v-on:mouseover.stop='mouseover($event)' title="撤销">
+        <span v-html='icons.undo'></span>
+      </button>
+      <button class='redo' v-on:click='redo' v-on:mouseover.stop='mouseover($event)' title="重做">
+        <span v-html='icons.redo'></span>
+      </button>
+      <button class='remove-format' v-on:click='removeFormat' v-on:mouseover.stop='mouseover($event)' title="清式">
+        <span v-html='icons.removeFormat'></span>
+      </button>
+      <button class="font-size" v-on:click="isFontSizePickerShow = !isFontSizePickerShow" v-on:mouseover.stop='mouseover($event)' title="字号">
+        <span> {{fontSize}} </span>
         <font-size-picker v-bind:FontSizePickerClick="FontSizePickerClick" v-show="isFontSizePickerShow"></font-size-picker>
       </button>
-      <button v-for='(icon, name) in icons.basic' @click='basicStyle(name)' v-bind:class="{buttonsActive: styles.indexOf(name) > -1}">
+      <button v-for='(icon, name) in icons.basic' @click='basicStyle(name)' v-bind:class="{buttonsActive: styles.indexOf(name) > -1}" v-on:mouseover.stop='mouseover($event)' v-bind:title='basicStyleNames[Object.keys(icons.basic).indexOf(name)]'>
         <span v-html='icon'></span>
       </button>
-      <button>
+      <button v-on:mouseover.stop='mouseover($event)' title="文本颜色">
         <span v-html='icons.color' v-on:click="isColorPickerShow = !isColorPickerShow"></span>
         <color-picker v-bind:ColorPickerClick="ColorPickerClick" v-show="isColorPickerShow"></color-picker>
       </button>
-     <!--  <button class='insert-options' v-on:click="isInsertShow = !isInsertShow">
-        <span> 插入 </span>
-        <insert-options v-bind:insertImage="insertImage" v-show="isInsertShow"></insert-options>
-      </button> -->
-      <button class='insert-ol' v-on:click='insertList("OrderedList")'>
+      <button class='insert-ol' v-on:click='insertList("OrderedList")' v-on:mouseover.stop='mouseover($event)' title="有序列表">
         <span v-html='icons.listOrdered'></span>
       </button>
-      <button class='insert-ul' v-on:click='insertList("UnorderedList")'>
+      <button class='insert-ul' v-on:click='insertList("UnorderedList")' v-on:mouseover.stop='mouseover($event)' title="无序列表">
         <span v-html='icons.listUnordered'></span>
       </button>
-      <button class='indent' v-on:click='indent'>
+      <button class='indent' v-on:click='indent' v-on:mouseover.stop='mouseover($event)' title="增加缩进">
         <span v-html='icons.indent'></span>
       </button>
-      <button class='outdent' v-on:click='outdent'>
+      <button class='outdent' v-on:click='outdent' v-on:mouseover.stop='mouseover($event)' title="减少缩进">
         <span v-html='icons.outdent'></span>
+      </button>
+      <button class='align-left' v-on:click='align("Left")' v-on:mouseover.stop='mouseover($event)' title="左对齐">
+        <span v-html='icons.alignLeft'></span>
+      </button>
+      <button class='align-center' v-on:click='align("Center")' v-on:mouseover.stop='mouseover($event)' title="居中对齐">
+        <span v-html='icons.alignCenter'></span>
+      </button>
+      <button class='align-right' v-on:click='align("Right")'  v-on:mouseover.stop='mouseover($event)' title='右对齐'>
+        <span v-html='icons.alignRight'></span>
+      </button>
+      <button class='insert-options' v-on:click="isInsertShow = !isInsertShow">
+        <span class="insert-options-label"></span>
+        <insert-options v-bind:insertImage="insertImage" v-show="isInsertShow"></insert-options>
       </button>
    <!--    <button class='insert-ul' v-on:click='insertCheck'>
         <span v-html='icons.listCheck'></span>
@@ -53,6 +71,7 @@ import icons from './icons.js'
 import ColorPicker from './ColorPicker.vue'
 import FontSizePicker from './FontSizePicker.vue'
 import Insert from './Insert.vue'
+import tippy from 'tippy.js'
 const remove = function (arr, val) {
   let index = arr.indexOf(val)
   if (index > -1) {
@@ -75,6 +94,7 @@ export default {
       icons: icons,
       input: [],
       styles: [],
+      basicStyleNames: ['粗体', '斜体', '下划线', '中划线'],
       // 调色盘是否显示
       isColorPickerShow: false,
       isFontSizePickerShow: false,
@@ -101,6 +121,31 @@ export default {
       setTimeout(() => {
         this.selectWords = ''
       }, 1500)
+    },
+    mouseover (event) {
+      let target = ''
+      event.path.forEach(el => {
+        if (el.localName === 'button' && target === '') {
+          target = el
+        }
+      })
+      tippy(target, {
+        placement: 'bottom',
+        animation: 'shift-away',
+        duration: 100,
+        arrow: true
+      })
+    },
+    redo () {
+      document.execCommand('redo')
+    },
+    undo () {
+      document.execCommand('undo')
+    },
+    removeFormat () {
+      document.execCommand('removeFormat')
+      this.styles = []
+      this.FontSize = 16
     },
     FontSizePickerClick (size, index) {
       document.execCommand('FontSize', false, index + 1)
@@ -163,6 +208,9 @@ export default {
     },
     outdent () {
       document.execCommand('outdent')
+    },
+    align (name) {
+      document.execCommand(`Justify${name}`)
     }
   },
   mounted () {
@@ -304,6 +352,10 @@ function getSelectedNode () {
   margin: 0px;
 }
 
+.smeditor svg {
+  cursor: pointer;
+}
+
 .smeditor .image-caption {
   min-width: 20%;
   max-width: 80%;
@@ -354,13 +406,40 @@ function getSelectedNode () {
 }
 
 .smeditor .font-size, .smeditor .insert-options {
-  vertical-align: super !important;
+  min-width: 40px !important;
 }
 
-.smeditor .font-size button , .smeditor .insert-options button {
+.smeditor .font-size {
+  border: none;
+  bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.smeditor .font-size span {
   font-size: 14px;
   color: #333;
-  border: none;
+}
+
+.smeditor .insert-options:before {
+  content: "\63D2\5165";
+  color: #333;
+  font-family: Helvetica,Tahoma,Arial,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
+  line-height: 28px;
+  font-size: 12px;
+  float: left;
+  margin-left: 8px;
+}
+
+.smeditor .down-triangle:after {
+  content: " ";
+  /*display: block;*/
+  background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIxLjAuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IuWbvuWxgl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB2aWV3Qm94PSIwIDAgMTAgNiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTAgNjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KPGcgaWQ9IlBhZ2UtMSI+Cgk8ZyBpZD0iQXJ0Ym9hcmQtMiI+CgkJPHBvbHlnb24gaWQ9IlRyaWFuZ2xlIiBmaWxsPSIjODg4ODg4IiBwb2ludHM9IjUsNiAwLDAgMTAsMCAJCSIvPgoJPC9nPgo8L2c+Cjwvc3ZnPgo=") no-repeat 50%;
+  height: 27px;
+  width: 5px;
+  float: right;
+  margin-right: 8px;
 }
 
 .unchecked-list {
