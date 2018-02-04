@@ -1,7 +1,7 @@
 <template>
   <div class="insert-options-items">
     <ul>
-      <li v-for='(key, index) in Object.keys(icons.insert)'>
+      <li v-for='(key, index) in Object.keys(icons.insert)' @click='insertClick(key, index)'>
         <input v-if='index === 0' id="img_input" type="file" accept="image/*"/>
         <span v-html='icons.insert[key]' :class='key'></span>
         <span>{{labels[index]}}</span>
@@ -19,10 +19,13 @@ export default {
       labels: ['图片', '表格', '超链接', '分割线', '附件', '引用', '代码块']
     }
   },
-  props: ['insertImage'],
+  props: Object.keys(icons.insert),
   methods: {
-    insertImageClick () {
-      this.insertImage()
+    insertClick (key, index) {
+      console.log(key, index)
+      if (this[key]) {
+        this[key]()
+      }
     }
   }
 }

@@ -1,12 +1,19 @@
 <template>
-  <div id="app">
+  <div id='app'>
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  mounted () {
+    let link = document.createElement('link')
+    link.href = 'https://ws3.sinaimg.cn/large/006tNc79ly1fnyr74sc8ej305m05mmx9.jpg'
+    link.rel = 'shortcut icon'
+    document.head.appendChild(link)
+    document.title = 'SMEditor (石墨文档编辑器)'
+  }
 }
 </script>
 
@@ -21,8 +28,7 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: rgb(240,240,240);
-  padding-top: 50px;
-  height: calc(100% - 50px);
+  height: 100%;
   overflow-y: scroll;
 }
 </style>

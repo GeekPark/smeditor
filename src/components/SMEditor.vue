@@ -7,14 +7,24 @@
       <button class='redo' v-on:click='redo' v-on:mouseover.stop='mouseover($event)' title="重做">
         <span v-html='icons.redo'></span>
       </button>
-      <button class='remove-format' v-on:click='removeFormat' v-on:mouseover.stop='mouseover($event)' title="清式">
+      <button class='remove-format'
+              title="清式"
+              v-on:click='removeFormat'
+              v-on:mouseover.stop='mouseover($event)'>
         <span v-html='icons.removeFormat'></span>
       </button>
-      <button class="font-size" v-on:click="isFontSizePickerShow = !isFontSizePickerShow" v-on:mouseover.stop='mouseover($event)' title="字号">
+      <button class="font-size"
+              title="字号"
+              v-on:click="isFontSizePickerShow = !isFontSizePickerShow"
+              v-on:mouseover.stop='mouseover($event)'>
         <span> {{fontSize}} </span>
         <font-size-picker v-bind:FontSizePickerClick="FontSizePickerClick" v-show="isFontSizePickerShow"></font-size-picker>
       </button>
-      <button v-for='(icon, name) in icons.basic' @click='basicStyle(name)' v-bind:class="{buttonsActive: styles.indexOf(name) > -1}" v-on:mouseover.stop='mouseover($event)' v-bind:title='basicStyleNames[Object.keys(icons.basic).indexOf(name)]'>
+      <button v-for='(icon, name) in icons.basic'
+              @click='basicStyle(name)'
+              v-bind:class="{buttonsActive: styles.indexOf(name) > -1}"
+              v-on:mouseover.stop='mouseover($event)'
+              v-bind:title='basicStyleNames[Object.keys(icons.basic).indexOf(name)]'>
         <span v-html='icon'></span>
       </button>
       <button v-on:mouseover.stop='mouseover($event)' title="文本颜色">
@@ -44,7 +54,15 @@
       </button>
       <button class='insert-options' v-on:click="isInsertShow = !isInsertShow">
         <span class="insert-options-label"></span>
-        <insert-options v-bind:insertImage="insertImage" v-show="isInsertShow"></insert-options>
+        <insert-options v-show="isInsertShow"
+         :insertImage="insertImage"
+         :insertTable="insertTable"
+         :insertLink="insertLink"
+         :insertLine="insertLine"
+         :insertAttachment="insertAttachment"
+         :insertQuote="insertQuote"
+         :insertBlock="insertBlock"
+         ></insert-options>
       </button>
    <!--    <button class='insert-ul' v-on:click='insertCheck'>
         <span v-html='icons.listCheck'></span>
@@ -171,15 +189,31 @@ export default {
       }, 200)
     },
     insertImage (size, index) {
-      console.log('insert')
-       // <input type="text" placeholder="请点击编辑图片描述" onkeypress="if(event.keyCode==13) {console.log(1); focus('.next'); return false;}">
       document.execCommand('insertHTML', false, `
         <br><div class="image-desc">
           <img class="uploaded-img" src="https://ws2.sinaimg.cn/large/006tNc79ly1fni9fylw8zj30fa0a13yt.jpg" width="auto" height="auto">
           <br>
-          <div class="image-caption"><span>.</span></div>
+          <div class="image-caption"></div>
         </div><br>
       `)
+    },
+    insertTable () {
+      alert('暂未添加')
+    },
+    insertLink () {
+
+    },
+    insertLine () {
+      document.execCommand('insertHTML', false, `<p><hr></p>`)
+    },
+    insertBlock () {
+
+    },
+    insertAttachment () {
+
+    },
+    insertQuote () {
+      document.execCommand('insertHTML', false, `<blockquote><p></p></blockquote>`)
     },
     insertClick () {
       setTimeout(() => {
@@ -232,8 +266,12 @@ export default {
       const el = getSelectedNode()
       if (event.keyCode === 8 && isImageDesc(el)) {
         el.innerHTML = '<p></p>'
+        return false
       }
-      if (event.keyCode === 8 && isImageCaption(el) && el.innerHTML.length === 1) {
+      if (el.innerHTML.length <= 1 &&
+          event.keyCode === 8 &&
+          isImageCaption(el)) {
+        el.innerHTML = ''
         return false
       }
     }
@@ -279,11 +317,13 @@ function getSelectedNode () {
 .smeditor {
   width: 50%;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 .smeditor .input-area {
   outline: none;
   min-height: 400px;
-  width: 100%;
+  width: calc(100% - 20px);
   padding: 10px;
   text-align: left;
   box-shadow: 0 1px 6px #ccc;
@@ -292,9 +332,12 @@ function getSelectedNode () {
 }
 
 .smeditor .buttons {
-  text-align: left;
-  padding: 1px 0px;
-
+  display: flex;
+  justify-content: baseline;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+  background-color: rgba(240,240,240, 1);
 }
 
 .smeditor .buttons button {
@@ -356,6 +399,12 @@ function getSelectedNode () {
   cursor: pointer;
 }
 
+.smeditor blockquote {
+  color: #BFBFBF;
+  padding-left: 15px;
+  border-left: 5px solid #f0f0f0;
+}
+
 .smeditor .image-caption {
   min-width: 20%;
   max-width: 80%;
@@ -366,6 +415,11 @@ function getSelectedNode () {
   border-bottom: 1px solid #d9d9d9;
   font-size: 16px;
   color: #999;
+  content: "";
+}
+
+.smeditor .image-caption:empty {
+  display: inline-block;
   content: "";
 }
 
@@ -411,7 +465,6 @@ function getSelectedNode () {
 
 .smeditor .font-size {
   border: none;
-  bottom: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -420,6 +473,9 @@ function getSelectedNode () {
 .smeditor .font-size span {
   font-size: 14px;
   color: #333;
+  bottom: 1px;
+  font-family: 'Helvetica,Tahoma,Arial,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif';
+  position: relative;
 }
 
 .smeditor .insert-options:before {
@@ -430,16 +486,6 @@ function getSelectedNode () {
   font-size: 12px;
   float: left;
   margin-left: 8px;
-}
-
-.smeditor .down-triangle:after {
-  content: " ";
-  /*display: block;*/
-  background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIxLjAuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IuWbvuWxgl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB2aWV3Qm94PSIwIDAgMTAgNiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTAgNjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KPGcgaWQ9IlBhZ2UtMSI+Cgk8ZyBpZD0iQXJ0Ym9hcmQtMiI+CgkJPHBvbHlnb24gaWQ9IlRyaWFuZ2xlIiBmaWxsPSIjODg4ODg4IiBwb2ludHM9IjUsNiAwLDAgMTAsMCAJCSIvPgoJPC9nPgo8L2c+Cjwvc3ZnPgo=") no-repeat 50%;
-  height: 27px;
-  width: 5px;
-  float: right;
-  margin-right: 8px;
 }
 
 .unchecked-list {
