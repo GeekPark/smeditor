@@ -248,9 +248,17 @@ export default {
     }
   },
   mounted () {
-    focus('.input-area')
     document.execCommand('insertHTML', false, '<p><br></p>')
     this.insertImage()
+    const self = this
+    document.querySelector('.input-area').onfocus = function (event) {
+      if (event.relatedTarget && event.relatedTarget.localName === 'button') {
+        self.isFontSizePickerShow = false
+        self.isInsertShow = false
+        self.isColorPickerShow = false
+      }
+    }
+    focus('.input-area')
     // 回车事件
     document.querySelector('.input-area').onkeypress = function (event) {
       const el = getSelectedNode()
