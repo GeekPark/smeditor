@@ -31,17 +31,17 @@
         <span v-html='icons.color' v-on:click="isColorPickerShow = !isColorPickerShow"></span>
         <color-picker v-bind:ColorPickerClick="ColorPickerClick" v-show="isColorPickerShow"></color-picker>
       </button>
-      <button class='insert-ol' v-on:click='insertList("OrderedList")' v-on:mouseover.stop='mouseover($event)' title="有序列表">
-        <span v-html='icons.listOrdered'></span>
-      </button>
-      <button class='insert-ul' v-on:click='insertList("UnorderedList")' v-on:mouseover.stop='mouseover($event)' title="无序列表">
-        <span v-html='icons.listUnordered'></span>
-      </button>
       <button class='indent' v-on:click='indent' v-on:mouseover.stop='mouseover($event)' title="增加缩进">
         <span v-html='icons.indent'></span>
       </button>
       <button class='outdent' v-on:click='outdent' v-on:mouseover.stop='mouseover($event)' title="减少缩进">
         <span v-html='icons.outdent'></span>
+      </button>
+      <button class='insert-ol' v-on:click='insertList("OrderedList")' v-on:mouseover.stop='mouseover($event)' title="有序列表">
+        <span v-html='icons.listOrdered'></span>
+      </button>
+      <button class='insert-ul' v-on:click='insertList("UnorderedList")' v-on:mouseover.stop='mouseover($event)' title="无序列表">
+        <span v-html='icons.listUnordered'></span>
       </button>
       <button class='align-left' v-on:click='align("Left")' v-on:mouseover.stop='mouseover($event)' title="左对齐">
         <span v-html='icons.alignLeft'></span>
@@ -56,7 +56,6 @@
         <span class="insert-options-label"></span>
         <insert-options v-show="isInsertShow"
          :insertImage="insertImage"
-         :insertTable="insertTable"
          :insertLink="insertLink"
          :insertLine="insertLine"
          :insertAttachment="insertAttachment"
@@ -168,9 +167,7 @@ export default {
     FontSizePickerClick (size, index) {
       document.execCommand('FontSize', false, index + 1)
       this.fontSize = size
-      setTimeout(() => {
-        this.isFontSizePickerShow = false
-      }, 200)
+      this.closeAlert()
     },
     basicStyle (name) {
       console.log(name)
@@ -184,11 +181,10 @@ export default {
     ColorPickerClick (color) {
       document.querySelector('.ql-color-label').style.fill = color
       document.execCommand('forecolor', false, color)
-      setTimeout(() => {
-        this.isColorPickerShow = false
-      }, 200)
+      this.closeAlert()
     },
     insertImage (size, index) {
+      this.closeAlert()
       document.execCommand('insertHTML', false, `
         <br><div class="image-desc">
           <img class="uploaded-img" src="https://ws2.sinaimg.cn/large/006tNc79ly1fni9fylw8zj30fa0a13yt.jpg" width="auto" height="auto">
@@ -197,33 +193,28 @@ export default {
         </div><br>
       `)
     },
-    insertTable () {
-      alert('暂未添加')
-    },
     insertLink () {
-
+      this.closeAlert()
     },
     insertLine () {
+      this.closeAlert()
       document.execCommand('insertHTML', false, `<p><hr></p>`)
     },
     insertBlock () {
-
+      this.closeAlert()
     },
     insertAttachment () {
-
+      this.closeAlert()
     },
     insertQuote () {
-      document.execCommand('insertHTML', false, `<blockquote><p></p></blockquote>`)
-    },
-    insertClick () {
-      setTimeout(() => {
-        this.isInsertShow = false
-      }, 200)
+      document.execCommand('insertHTML', false, `<div class="blockquote"><blockquote>&nbsp</blockquote></div>`)
     },
     insertList (name) {
+      this.closeAlert()
       document.execCommand(`insert${name}`, false, '')
     },
     insertCheck () {
+      this.closeAlert()
       document.execCommand('insertHTML', false, `
         <ul class="unchecked-list"><li class="unchecked">&nbsp</li></ul>
       `)
@@ -238,13 +229,20 @@ export default {
       })
     },
     indent () {
-      document.execCommand('indent')
+      document.execCommand('indent', false, null)
     },
     outdent () {
-      document.execCommand('outdent')
+      document.execCommand('outdent', false, null)
     },
     align (name) {
       document.execCommand(`Justify${name}`)
+    },
+    closeAlert () {
+      setTimeout(() => {
+        self.isFontSizePickerShow = false
+        self.isInsertShow = false
+        self.isColorPickerShow = false
+      }, 200)
     }
   },
   mounted () {
@@ -253,9 +251,7 @@ export default {
     const self = this
     document.querySelector('.input-area').onfocus = function (event) {
       if (event.relatedTarget && event.relatedTarget.localName === 'button') {
-        self.isFontSizePickerShow = false
-        self.isInsertShow = false
-        self.isColorPickerShow = false
+        self.closeAlert()
       }
     }
     focus('.input-area')
@@ -286,20 +282,6 @@ export default {
   }
 }
 
-// function getCursortPosition (obj) {
-//   let cursorIndex = 0
-//   if (document.selection) {
-//     // IE Support
-//     obj.focus()
-//     let range = document.selection.createRange()
-//     range.moveStart('character', -obj.value.length)
-//     cursorIndex = range.text.length
-//   } else if (obj.selectionStart || obj.selectionStart === 0) {
-//     // another support
-//     cursorIndex = obj.selectionStart
-//   }
-//   return cursorIndex
-// }
 function isImageCaption (el) {
   return el.className === 'image-caption'
 }
@@ -407,10 +389,16 @@ function getSelectedNode () {
   cursor: pointer;
 }
 
-.smeditor blockquote {
+.smeditor .blockquote {
+  margin: 15px 0px;
+}
+
+.smeditor .blockquote blockquote {
   color: #BFBFBF;
   padding-left: 15px;
   border-left: 5px solid #f0f0f0;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .smeditor .image-caption {
@@ -426,7 +414,7 @@ function getSelectedNode () {
   content: "";
 }
 
-.smeditor .image-caption:empty {
+.smeditor .image-caption:empty{
   display: inline-block;
   content: "";
 }

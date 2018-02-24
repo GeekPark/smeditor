@@ -23,15 +23,14 @@ export default {
 
 <style lang="stylus">
 .home
-  height 100%
+  min-height 100%
   position absolute
   top 0
   left 0
   width 100%
   .bg
-    height 580px
+    height 480px
     width 100%
-    min-width 1280px
     margin 0 auto
     background-image url('https://assets-cdn.shimo.im/assets/images/home/index/banner_back-9564341c38.jpg')
     background-size 1280px 580px
@@ -40,7 +39,7 @@ export default {
     position absolute
 
   .smeditor-wrapper
-    margin-top 20%
+    margin-top 18%
 
   .header
     position absolute
@@ -50,7 +49,7 @@ export default {
     font-size 60px
     text-rendering optimizeLegibility
     font-weight 200
-    margin-top 12%
+    margin-top 8%
     text-align center
     width 100%
 

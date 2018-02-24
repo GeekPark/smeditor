@@ -131,31 +131,7 @@ export default {
   </g>
 </g>
 </svg>`,
-  insert: {
-    insertImage: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 17 17" style="enable-background:new 0 0 17 17;" xml:space="preserve">
-<title>图片 1x</title>
-<desc>Created with Sketch.</desc>
-<g id="Page-1">
-  <g id="图片-1x">
-    <g id="btn-bold" transform="translate(2.000000, 3.000000)">
-      <path id="Combined-Shape" d="M12,7.5V1H1v4.6L3.5,3l4.9,5.1L10.5,6L12,7.5z M0,0h13v11H0V0z M9,4C8.4,4,8,3.6,8,3
-        s0.4-1,1-1s1,0.4,1,1S9.6,4,9,4z"></path>
-    </g>
-  </g>
-</g>
-</svg>`,
-    insertTable: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 17 17" style="enable-background:new 0 0 17 17;" xml:space="preserve">
-<title>表格 1x</title>
-<desc>Created with Sketch.</desc>
-<g id="Page-1">
-  <g id="表格-1x">
-    <g id="Group-6" transform="translate(3.000000, 3.000000)">
-      <path id="Combined-Shape" d="M1,5h4V1H1V5z M1,6v4h4V6H1z M10,5V1H6v4H10z M10,6H6v4h4V6z M0,0h11v11H0V0z"></path>
-    </g>
-  </g>
-</g>
-</svg>`,
-    insertLink: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 17 17" style="enable-background:new 0 0 17 17;" xml:space="preserve">
+  insertLink: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 17 17" style="enable-background:new 0 0 17 17;" xml:space="preserve">
 <title>超链接 1x</title>
 <desc>Created with Sketch.</desc>
 <g id="Page-1">
@@ -166,6 +142,19 @@ export default {
       L6.083,9.762z M10.917,6.919l-1.21-1.21C9.778,5.703,9.85,5.7,9.922,5.7h2.438C13.818,5.7,15,6.882,15,8.341
       s-1.182,2.641-2.641,2.641H9.922c-1.458,0-2.641-1.182-2.641-2.641c0-0.31,0.053-0.608,0.152-0.884l1.08,1.08
       c0.096,0.692,0.69,1.226,1.408,1.226h2.438c0.785,0,1.422-0.637,1.422-1.422s-0.637-1.422-1.422-1.422H10.917L10.917,6.919z"></path>
+  </g>
+</g>
+</svg>`,
+  insert: {
+    insertImage: `<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 17 17" style="enable-background:new 0 0 17 17;" xml:space="preserve">
+<title>图片 1x</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+  <g id="图片-1x">
+    <g id="btn-bold" transform="translate(2.000000, 3.000000)">
+      <path id="Combined-Shape" d="M12,7.5V1H1v4.6L3.5,3l4.9,5.1L10.5,6L12,7.5z M0,0h13v11H0V0z M9,4C8.4,4,8,3.6,8,3
+        s0.4-1,1-1s1,0.4,1,1S9.6,4,9,4z"></path>
+    </g>
   </g>
 </g>
 </svg>`,
