@@ -52,6 +52,9 @@
       <button class='align-right' v-on:click='align("Right")'  v-on:mouseover.stop='mouseover($event)' title='右对齐'>
         <span v-html='icons.alignRight'></span>
       </button>
+      <button class='insert-link' v-on:click='isInsertLinkShow = !isInsertLinkShow'  v-on:mouseover.stop='mouseover($event)' title='插入链接'>
+        <span v-html='icons.insertLink'></span>
+      </button>
       <button class='insert-options' v-on:click="isInsertShow = !isInsertShow">
         <span class="insert-options-label"></span>
         <insert-options v-show="isInsertShow"
@@ -80,6 +83,7 @@
       >
     </div>
     <p class="select-words" v-show="selectWords">{{selectWords.length}}个字</p>
+    <insert-link :insertLink='insertLink' v-if='isInsertLinkShow'></insert-link>
   </div>
 </template>
 
@@ -87,6 +91,7 @@
 import icons from './icons.js'
 import ColorPicker from './ColorPicker.vue'
 import FontSizePicker from './FontSizePicker.vue'
+import InsertLink from './InsertLink.vue'
 import Insert from './Insert.vue'
 import tippy from 'tippy.js'
 const remove = function (arr, val) {
@@ -103,7 +108,8 @@ export default {
   components: {
     'color-picker': ColorPicker,
     'font-size-picker': FontSizePicker,
-    'insert-options': Insert
+    'insert-options': Insert,
+    'insert-link': InsertLink
   },
   data () {
     return {
@@ -116,6 +122,7 @@ export default {
       isColorPickerShow: false,
       isFontSizePickerShow: false,
       isInsertShow: false,
+      isInsertLinkShow: false,
       // 选中文字
       selectWords: '',
       // 字号
@@ -207,7 +214,7 @@ export default {
       this.closeAlert()
     },
     insertQuote () {
-      document.execCommand('insertHTML', false, `<div class="blockquote"><blockquote>&nbsp</blockquote></div>`)
+      document.execCommand('insertHTML', false, `<div class="blockquote"><blockquote><span><br></span></blockquote></div>`)
     },
     insertList (name) {
       this.closeAlert()
@@ -248,6 +255,8 @@ export default {
   mounted () {
     document.execCommand('insertHTML', false, '<p><br></p>')
     this.insertImage()
+
+    // 焦点隐藏弹窗
     const self = this
     document.querySelector('.input-area').onfocus = function (event) {
       if (event.relatedTarget && event.relatedTarget.localName === 'button') {

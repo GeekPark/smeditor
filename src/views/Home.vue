@@ -23,11 +23,13 @@ export default {
 
 <style lang="stylus">
 .home
-  min-height 100%
+  min-height calc(100% - 60px)
   position absolute
   top 0
   left 0
   width 100%
+  padding-bottom 60px
+  background-color rgb(240,240,240)
   .bg
     height 480px
     width 100%
