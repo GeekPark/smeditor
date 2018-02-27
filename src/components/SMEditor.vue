@@ -66,6 +66,8 @@
          :insertBlock="insertBlock"
          ></insert-options>
       </button>
+      <button class="backup" @click='backupClick'></button>
+      <button class="restore" @click='restoreClick'></button>
    <!--    <button class='insert-ul' v-on:click='insertCheck'>
         <span v-html='icons.listCheck'></span>
       </button> -->
@@ -268,6 +270,12 @@ export default {
     align (name) {
       document.execCommand(`Justify${name}`)
     },
+    backupClick () {
+      window.localStorage.setItem('smeditor', document.querySelector('.input-area').innerHTML)
+    },
+    restoreClick () {
+      document.querySelector('.input-area').innerHTML = window.localStorage.getItem('smeditor') || ''
+    },
     closeAlert () {
       setTimeout(() => {
         self.isFontSizePickerShow = false
@@ -283,9 +291,7 @@ export default {
     // 焦点隐藏弹窗
     const self = this
     document.querySelector('.input-area').onfocus = function (event) {
-      if (event.relatedTarget && event.relatedTarget.localName === 'button') {
-        self.closeAlert()
-      }
+      self.closeAlert()
     }
     focus('.input-area')
     // 回车事件
@@ -468,6 +474,28 @@ function getSelectedNode () {
 
 .smeditor .blockquote {
   margin: 15px 0px;
+}
+
+
+.smeditor .backup, .smeditor .restore {
+  min-width: 40px !important;
+}
+
+.smeditor .backup:before , .smeditor .restore:before {
+  color: rgb(51, 51, 51);
+  font-family: Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
+  line-height: 28px;
+  font-size: 12px;
+  float: left;
+  margin-left: 8px;
+}
+
+.smeditor .backup:before {
+  content: "备份";
+}
+
+.smeditor .restore:before {
+  content: "恢复";
 }
 
 .smeditor .blockquote blockquote {
