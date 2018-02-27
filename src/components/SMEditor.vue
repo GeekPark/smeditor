@@ -52,7 +52,7 @@
       <button class='align-right' v-on:click='align("Right")'  v-on:mouseover.stop='mouseover($event)' title='右对齐'>
         <span v-html='icons.alignRight'></span>
       </button>
-      <button class='insert-link' v-on:click='isInsertLinkShow = !isInsertLinkShow'  v-on:mouseover.stop='mouseover($event)' title='插入链接'>
+      <button class='insert-link' v-on:click='insertLinkClick'  v-on:mouseover.stop='mouseover($event)' title='插入链接'>
         <span v-html='icons.insertLink'></span>
       </button>
       <button class='insert-options' v-on:click="isInsertShow = !isInsertShow">
@@ -83,7 +83,7 @@
       >
     </div>
     <p class="select-words" v-show="selectWords">{{selectWords.length}}个字</p>
-    <insert-link :insertLink='insertLink' v-if='isInsertLinkShow'></insert-link>
+    <insert-link :insertLink='insertLink' v-if='isInsertLinkShow' :cancel='insertLinkCancel'></insert-link>
   </div>
 </template>
 
@@ -126,7 +126,8 @@ export default {
       // 选中文字
       selectWords: '',
       // 字号
-      fontSize: 16
+      fontSize: 16,
+      cursor: {}
     }
   },
   methods: {
@@ -200,8 +201,31 @@ export default {
         </div><br>
       `)
     },
-    insertLink () {
+    insertLinkClick () {
+      this.cursor = window.getSelection().getRangeAt(0)
+      this.isInsertLinkShow = !this.isInsertLinkShow
+    },
+    insertLink (url, title) {
       this.closeAlert()
+      this.isInsertLinkShow = false
+      document.querySelector('.input-area').focus()
+      const savedRange = this.cursor
+      if (window.getSelection) {
+        var s = window.getSelection()
+        if (s.rangeCount > 0) {
+          s.removeAllRanges()
+        }
+        s.addRange(savedRange)
+      } else if (document.createRange) {
+        window.getSelection().addRange(savedRange)
+      } else if (document.selection) {
+        savedRange.select()
+      }
+      document.execCommand('insertHTML', false, `<a href=${url} target="_blank">${title}</>`)
+    },
+    insertLinkCancel () {
+      this.closeAlert()
+      this.isInsertLinkShow = false
     },
     insertLine () {
       this.closeAlert()
@@ -309,6 +333,45 @@ function getSelectedNode () {
     }
   }
 }
+
+// 设置光标位置
+// function setCaretPosition (textDom, pos) {
+//   if (textDom.setSelectionRange) {
+//     textDom.focus()
+//     textDom.setSelectionRange(pos, pos)
+//   } else if (textDom.createTextRange) {
+//     var range = textDom.createTextRange()
+//     range.collapse(true)
+//     range.moveEnd('character', pos)
+//     range.moveStart('character', pos)
+//     range.select()
+//   }
+// }
+
+// 获取光标位置
+// function getCursortPosition (textDom) {
+//   var cursorPos = 0
+//   if (document.selection) {
+//     textDom.focus()
+//     var selectRange = document.selection.createRange()
+//     selectRange.moveStart('character', -textDom.value.length)
+//     cursorPos = selectRange.text.length
+//   } else if (textDom.selectionStart || textDom.selectionStart === '0') {
+//     cursorPos = textDom.selectionStart
+//   }
+//   return cursorPos
+// }
+
+// function findParentByTagName (root, name) {
+//   let parent = root
+//   if (typeof name === 'string') {
+//     name = [name]
+//   }
+//   while (name.indexOf(parent.nodeName.toLowerCase()) === -1 && parent.nodeName !== 'BODY' && parent.nodeName !== 'HTML') {
+//     parent = parent.parentNode
+//   }
+//   return parent.nodeName === 'BODY' || parent.nodeName === 'HTML' ? null : parent
+// }
 </script>
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
@@ -396,6 +459,11 @@ function getSelectedNode () {
 
 .smeditor svg {
   cursor: pointer;
+}
+
+.smeditor a {
+  color: #87AA99;
+  margin-right: 3px;
 }
 
 .smeditor .blockquote {

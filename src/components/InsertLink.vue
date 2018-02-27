@@ -1,10 +1,10 @@
 <template>
   <div class="insert-link">
     <div class="insert-link-box">
-      <span class="cancel" @click='cancel'>X</span>
+      <span class="cancel" @click='cancelClick'>X</span>
       <p>插入链接</p>
       <input type="text" name="link" placeholder="链接地址" v-model='link'>
-      <input type="text" name="text" placeholder="链接文本" v-model='text'>
+      <input type="text" name="text" placeholder="链接文本" v-model='text' v-on:keyup.enter='conformClick'>
       <button @click='conformClick'> 确认</button>
     </div>
   </div>
@@ -22,6 +22,9 @@ export default {
   methods: {
     conformClick () {
       this.insertLink(this.link, this.text)
+    },
+    cancelClick () {
+      this.cancel()
     }
   }
 }
