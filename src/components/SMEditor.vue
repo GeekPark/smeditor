@@ -21,7 +21,7 @@
         <font-size-picker v-bind:FontSizePickerClick="FontSizePickerClick" v-show="isFontSizePickerShow"></font-size-picker>
       </button>
       <button v-for='(icon, name) in icons.basic'
-              @click='basicStyle(name)'
+              @click='basicStyleClick(name)'
               v-bind:class="{buttonsActive: styles.indexOf(name) > -1}"
               v-on:mouseover.stop='mouseover($event)'
               v-bind:title='basicStyleNames[Object.keys(icons.basic).indexOf(name)]'>
@@ -58,7 +58,7 @@
       <button class='insert-options' v-on:click="isInsertShow = !isInsertShow">
         <span class="insert-options-label"></span>
         <insert-options v-show="isInsertShow"
-         :insertImage="insertImage"
+         :insertImage="insertImageClick"
          :insertLink="insertLink"
          :insertLine="insertLine"
          :insertAttachment="insertAttachment"
@@ -68,10 +68,6 @@
       </button>
       <button class="backup" @click='backupClick'></button>
       <button class="restore" @click='restoreClick'></button>
-   <!--    <button class='insert-ul' v-on:click='insertCheck'>
-        <span v-html='icons.listCheck'></span>
-      </button> -->
-      <!-- <button v-on:click='insertImage'>23333</button> -->
     </div>
     <div
       contenteditable="true"
@@ -117,28 +113,35 @@ export default {
     return {
       // 图标
       icons: icons,
-      input: [],
+      // 样式
       styles: [],
+      // 基本样式名称
       basicStyleNames: ['粗体', '斜体', '下划线', '中划线'],
       // 调色盘是否显示
       isColorPickerShow: false,
+      // 字号选项是否显示
       isFontSizePickerShow: false,
+      // 插入选项是否显示
       isInsertShow: false,
+      // 插入链接是否显示
       isInsertLinkShow: false,
-      // 选中文字
+      // 选中文字内容
       selectWords: '',
       // 字号
       fontSize: 16,
+      // 光标
       cursor: {}
     }
   },
   methods: {
+    // 回车事件
     kenter (e) {
       e.stopPropagation()
       if (this.styles.length === 0) {
         return false
       }
     },
+    // 鼠标事件
     mouseup () {
       const str = window.getSelection().toString()
       if (str.length < 1) {
@@ -149,6 +152,7 @@ export default {
         this.selectWords = ''
       }, 1500)
     },
+    // 鼠标事件
     mouseover (event) {
       let target = ''
       event.path.forEach(el => {
@@ -163,23 +167,28 @@ export default {
         arrow: true
       })
     },
+    // 重做
     redo () {
       document.execCommand('redo')
     },
+    // 撤销
     undo () {
       document.execCommand('undo')
     },
+    // 移除格式
     removeFormat () {
       document.execCommand('removeFormat')
       this.styles = []
       this.FontSize = 16
     },
+    // 字号选项点击
     FontSizePickerClick (size, index) {
       document.execCommand('FontSize', false, index + 1)
       this.fontSize = size
       this.closeAlert()
     },
-    basicStyle (name) {
+    // 基本样式点击
+    basicStyleClick (name) {
       console.log(name)
       document.execCommand(name, false, null)
       if (this.styles.indexOf(name) === -1) {
@@ -188,12 +197,14 @@ export default {
         remove(this.styles, name)
       }
     },
+    // 调色盘点击
     ColorPickerClick (color) {
       document.querySelector('.ql-color-label').style.fill = color
       document.execCommand('forecolor', false, color)
       this.closeAlert()
     },
-    insertImage (size, index) {
+    // 插入图片
+    insertImageClick (size, index) {
       this.closeAlert()
       document.execCommand('insertHTML', false, `
         <br><div class="image-desc">
@@ -203,10 +214,15 @@ export default {
         </div><br>
       `)
     },
+    // 点击插入链接
     insertLinkClick () {
+      console.log('1')
+      this.closeAlert()
       this.cursor = window.getSelection().getRangeAt(0)
-      this.isInsertLinkShow = !this.isInsertLinkShow
+      this.isInsertLinkShow = true
+      this.isInsertShow = false
     },
+    // 插入链接
     insertLink (url, title) {
       this.closeAlert()
       this.isInsertLinkShow = false
@@ -225,27 +241,34 @@ export default {
       }
       document.execCommand('insertHTML', false, `<a href=${url} target="_blank">${title}</>`)
     },
+    // 取消插入链接
     insertLinkCancel () {
       this.closeAlert()
       this.isInsertLinkShow = false
     },
+    // 插入一条线
     insertLine () {
       this.closeAlert()
       document.execCommand('insertHTML', false, `<p><hr></p>`)
     },
+    // 插入代码块
     insertBlock () {
       this.closeAlert()
     },
+    // 插入附件
     insertAttachment () {
       this.closeAlert()
     },
+    // 插入引用
     insertQuote () {
       document.execCommand('insertHTML', false, `<div class="blockquote"><blockquote><span><br></span></blockquote></div>`)
     },
+    // 插入 有序/无序 列表
     insertList (name) {
       this.closeAlert()
       document.execCommand(`insert${name}`, false, '')
     },
+    // 插入 todo , 暂时不做
     insertCheck () {
       this.closeAlert()
       document.execCommand('insertHTML', false, `
@@ -261,21 +284,27 @@ export default {
         })
       })
     },
+    // 缩进+
     indent () {
       document.execCommand('indent', false, null)
     },
+    // 缩进-
     outdent () {
       document.execCommand('outdent', false, null)
     },
+    // 对齐
     align (name) {
       document.execCommand(`Justify${name}`)
     },
+    // 备份
     backupClick () {
       window.localStorage.setItem('smeditor', document.querySelector('.input-area').innerHTML)
     },
+    // 恢复
     restoreClick () {
       document.querySelector('.input-area').innerHTML = window.localStorage.getItem('smeditor') || ''
     },
+    // 关闭弹窗
     closeAlert () {
       setTimeout(() => {
         self.isFontSizePickerShow = false
@@ -286,7 +315,7 @@ export default {
   },
   mounted () {
     document.execCommand('insertHTML', false, '<p><br></p>')
-    this.insertImage()
+    this.insertImageClick()
 
     // 焦点隐藏弹窗
     const self = this
