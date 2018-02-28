@@ -61,7 +61,7 @@
          :insertImage="insertImageClick"
          :insertLink="insertLink"
          :insertLine="insertLine"
-         :insertAttachment="insertAttachment"
+         :insertAttachment="insertVideoClick"
          :insertQuote="insertQuote"
          :insertBlock="insertBlock"
          ></insert-options>
@@ -82,6 +82,7 @@
     </div>
     <p class="select-words" v-show="selectWords">{{selectWords.length}}个字</p>
     <insert-link :insertLink='insertLink' v-if='isInsertLinkShow' :cancel='insertLinkCancel'></insert-link>
+    <insert-video :insertVideo='insertVideo' v-if='isInsertVideoShow' :cancel='insertVideoCancel'></insert-video>
   </div>
 </template>
 
@@ -90,6 +91,7 @@ import icons from './icons.js'
 import ColorPicker from './ColorPicker.vue'
 import FontSizePicker from './FontSizePicker.vue'
 import InsertLink from './InsertLink.vue'
+import InsertVideo from './InsertVideo.vue'
 import Insert from './Insert.vue'
 import tippy from 'tippy.js'
 const remove = function (arr, val) {
@@ -107,7 +109,8 @@ export default {
     'color-picker': ColorPicker,
     'font-size-picker': FontSizePicker,
     'insert-options': Insert,
-    'insert-link': InsertLink
+    'insert-link': InsertLink,
+    'insert-video': InsertVideo
   },
   data () {
     return {
@@ -125,6 +128,8 @@ export default {
       isInsertShow: false,
       // 插入链接是否显示
       isInsertLinkShow: false,
+      // 插入视频是否显示
+      isInsertVideoShow: false,
       // 选中文字内容
       selectWords: '',
       // 字号
@@ -216,7 +221,6 @@ export default {
     },
     // 点击插入链接
     insertLinkClick () {
-      console.log('1')
       this.closeAlert()
       this.cursor = window.getSelection().getRangeAt(0)
       this.isInsertLinkShow = true
@@ -246,6 +250,40 @@ export default {
       this.closeAlert()
       this.isInsertLinkShow = false
     },
+    // 点击插入链接
+    insertVideoClick () {
+      this.closeAlert()
+      this.cursor = window.getSelection().getRangeAt(0)
+      this.isInsertVideoShow = true
+      setTimeout(() => {
+        this.isInsertShow = false
+      }, 200)
+    },
+    // 插入链接
+    insertVideo (text) {
+      this.closeAlert()
+      this.isInsertVideoShow = false
+      document.querySelector('.input-area').focus()
+      const savedRange = this.cursor
+      if (window.getSelection) {
+        var s = window.getSelection()
+        if (s.rangeCount > 0) {
+          s.removeAllRanges()
+        }
+        s.addRange(savedRange)
+      } else if (document.createRange) {
+        window.getSelection().addRange(savedRange)
+      } else if (document.selection) {
+        savedRange.select()
+      }
+      console.log(text)
+      document.execCommand('insertHTML', false, text)
+    },
+    // 取消插入链接
+    insertVideoCancel () {
+      this.closeAlert()
+      this.isInsertVideoShow = false
+    },
     // 插入一条线
     insertLine () {
       this.closeAlert()
@@ -255,10 +293,6 @@ export default {
     insertBlock () {
       this.closeAlert()
       document.execCommand('insertHTML', false, `<pre><code><span><br><span></code></pre>`)
-    },
-    // 插入附件
-    insertAttachment () {
-      this.closeAlert()
     },
     // 插入引用
     insertQuote () {

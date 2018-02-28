@@ -1,27 +1,25 @@
 <template>
-  <div class="insert-link">
-    <div class="insert-link-box">
+  <div class="insert-video">
+    <div class="insert-video-box">
       <span class="cancel" @click='cancelClick'>X</span>
-      <p>插入链接</p>
-      <input type="text" name="link" placeholder="链接地址" v-model='link'>
-      <input type="text" name="text" placeholder="链接文本" v-model='text' v-on:keyup.enter='conformClick'>
+      <p>插入视频</p>
+      <input type="text" name="text" placeholder="视频地址 <iframe src='...'></iframe>" v-model='text' v-on:keyup.enter='conformClick'>
       <button @click='conformClick'> 确认</button>
     </div>
   </div>
 </template>
 <script type="text/javascript">
 export default {
-  name: 'InsertLink',
+  name: 'InsertVideo',
   data () {
     return {
-      link: '',
       text: ''
     }
   },
-  props: ['insertLink', 'cancel'],
+  props: ['insertVideo', 'cancel'],
   methods: {
     conformClick () {
-      this.insertLink(this.link, this.text)
+      this.insertVideo(this.text)
     },
     cancelClick () {
       this.cancel()
@@ -31,7 +29,7 @@ export default {
 </script>
 
 <style type="text/css">
-.insert-link {
+.insert-video {
   position: absolute;
   top: 0;
   left: 0;
@@ -43,7 +41,7 @@ export default {
   justify-content: center;
 }
 
-.insert-link-box {
+.insert-video-box {
   position: relative;
   padding: 30px 20px;
   border-radius: 6px;
@@ -51,21 +49,21 @@ export default {
   background-clip: padding-box;
   box-shadow: 0 2px 8px rgba(0,0,0,.2);
 }
-.insert-link p {
+.insert-video p {
   text-align: center;
   padding: 20px 0px;
   font-size: 25px;
 }
-.insert-link input {
+.insert-video input {
   text-align: left;
   margin: 5px 0px;
   border: 1px solid rgb(200,200,200);
   font-size: 14px;
   padding: 10px 5px;
-  width: calc(100% - 20px);
+  width: calc(100% - 10px);
 }
 
-.insert-link button {
+.insert-video button {
   outline: none;
   cursor: pointer;
   margin-left: calc(50% - 40px);
@@ -95,7 +93,7 @@ export default {
   transition: all 0.3s;
 }
 
-.insert-link .cancel {
+.insert-video .cancel {
   position: absolute;
   top: 10px;
   right: 10px;

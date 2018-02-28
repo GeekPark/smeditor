@@ -16,7 +16,7 @@ export default {
   data () {
     return {
       icons: icons,
-      labels: ['图片', '分割线', '附件', '引用', '代码块']
+      labels: ['图片', '分割线', '视频', '引用', '代码块']
     }
   },
   props: Object.keys(icons.insert),
