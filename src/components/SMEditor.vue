@@ -332,6 +332,14 @@ export default {
         document.getSelection().collapse(this, this.childNodes.length - 1)
         return false
       }
+      if (event.keyCode === 13 && el.className === 'blockquote' && el.lastChild.innerHTML === '<br>') {
+        console.log('return')
+        el.lastChild.innerHTML = ''
+        document.execCommand('removeFormat', false, '')
+        this.innerHTML = this.innerHTML + '<p></p>'
+        document.getSelection().collapse(this, this.childNodes.length - 1)
+        return false
+      }
     }
     // 删除事件
     document.querySelector('.input-area').onkeydown = function (event) {
