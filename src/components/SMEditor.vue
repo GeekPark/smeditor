@@ -254,6 +254,7 @@ export default {
     // 插入代码块
     insertBlock () {
       this.closeAlert()
+      document.execCommand('insertHTML', false, `<pre><code><span><br><span></code></pre>`)
     },
     // 插入附件
     insertAttachment () {
@@ -333,10 +334,17 @@ export default {
         return false
       }
       if (event.keyCode === 13 && el.className === 'blockquote' && el.lastChild.innerHTML === '<br>') {
-        console.log('return')
         el.lastChild.innerHTML = ''
         document.execCommand('removeFormat', false, '')
         this.innerHTML = this.innerHTML + '<p></p>'
+        document.getSelection().collapse(this, this.childNodes.length - 1)
+        return false
+      }
+
+      if (event.keyCode === 13 && el.localName === 'pre' && el.lastChild.innerHTML === '<br>') {
+        el.lastChild.innerHTML = ''
+        document.execCommand('removeFormat', false, '')
+        this.innerHTML = this.innerHTML + '<p><span><br></span></p>'
         document.getSelection().collapse(this, this.childNodes.length - 1)
         return false
       }
@@ -507,6 +515,28 @@ function getSelectedNode () {
 .smeditor a {
   color: #87AA99;
   margin-right: 3px;
+}
+
+.smeditor pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  color: #333;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.smeditor pre code  {
+  display: block;
+  background-color: #f1f1f1;
+  border-radius: 3px;
+  padding: 3px 5px;
+  margin: 0 3px;
 }
 
 .smeditor .blockquote {
