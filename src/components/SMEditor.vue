@@ -213,16 +213,44 @@ export default {
     // 点击插入图片
     insertImageClick (size, index) {
       this.closeAlert()
-      // document.execCommand('insertHTML', false, `
-      //   <br><div class="image-desc">
-      //     <img class="uploaded-img" src="https://ws2.sinaimg.cn/large/006tNc79ly1fni9fylw8zj30fa0a13yt.jpg" width="auto" height="auto">
-      //     <br>
-      //     <div class="image-caption"></div>
-      //   </div><br>
-      // `)
     },
+    // 上传图片
     uploadImages (files) {
       console.log(files)
+      Array.from(files).forEach(file => {
+        this.upload(file)
+      })
+    },
+    upload (file) {
+      // 请求的后端方法
+      var url = ''
+      // 初始化一个 XMLHttpRequest 对象
+      var xhr = new XMLHttpRequest()
+      // 初始化一个 FormData 对象
+      var form = new FormData()
+      // 携带文件
+      form.append('upload_file', file)
+      // 开始上传
+      xhr.open('POST', url, true)
+      // 在readystatechange事件上绑定一个事件处理函数
+      xhr.onreadystatechange = callback
+      xhr.send(form)
+      function callback () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            console.log(JSON.parse(xhr.responseText))
+            document.execCommand('insertHTML', false, `
+              <br><div class="image-desc">
+                <img class="uploaded-img" src=${JSON.parse(xhr.responseText).image.url} max-width="100%" width="auto" height="auto">
+                <br>
+                <div class="image-caption"></div>
+              </div><br>
+            `)
+          } else {
+            alert('upload failed!')
+          }
+        }
+      }
     },
     // 点击插入链接
     insertLinkClick () {
