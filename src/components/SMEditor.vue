@@ -68,8 +68,9 @@
          :uploadImages='uploadImages'
          ></insert-options>
       </button>
-      <button class="backup" @click='backupClick'></button>
+      <button class="backup" @click='backupClick' v-on:mouseover.stop='mouseover($event)' title="Ctrl + S"></button>
       <button class="restore" @click='restoreClick'></button>
+      <button class="preview" @click='previewClick' v-on:mouseover.stop='mouseover($event)' title="Ctrl + P"></button>
     </div>
     <div
       contenteditable="true"
@@ -80,6 +81,8 @@
       id="input-area"
       v-on:mouseup="mouseup"
       v-on:keyup.enter="kenter"
+      v-on:keyup.ctrl.83="backupClick"
+      v-on:keyup.ctrl.80="previewClick"
       >
     </div>
     <p class="select-words" v-show="selectWords">{{selectWords.length}}个字</p>
@@ -216,14 +219,13 @@ export default {
     },
     // 上传图片
     uploadImages (files) {
-      console.log(files)
       Array.from(files).forEach(file => {
         this.upload(file)
       })
     },
     upload (file) {
       // 请求的后端方法
-      var url = ''
+      var url = 'http://main_test.geekpark.net/api/v1/admin/images?roles=dev'
       // 初始化一个 XMLHttpRequest 对象
       var xhr = new XMLHttpRequest()
       // 初始化一个 FormData 对象
@@ -372,12 +374,20 @@ export default {
     restoreClick () {
       document.querySelector('.input-area').innerHTML = window.localStorage.getItem('smeditor') || ''
     },
+    // 预览
+    previewClick () {
+      window.localStorage.setItem('smeditorPreview', document.querySelector('.input-area').innerHTML)
+      const {href} = this.$router.resolve({
+        name: 'Preview'
+      })
+      window.open(href, '_blank')
+    },
     // 关闭弹窗
     closeAlert () {
       setTimeout(() => {
-        self.isFontSizePickerShow = false
-        self.isInsertShow = false
-        self.isColorPickerShow = false
+        this.isFontSizePickerShow = false
+        this.isInsertShow = false
+        this.isColorPickerShow = false
       }, 200)
     }
   },
@@ -510,6 +520,7 @@ function getSelectedNode () {
 }
 
 .smeditor .buttons {
+  position: -webkit-sticky;
   display: flex;
   justify-content: baseline;
   align-items: center;
@@ -609,11 +620,11 @@ function getSelectedNode () {
 }
 
 
-.smeditor .backup, .smeditor .restore {
+.smeditor .backup, .smeditor .restore, .smeditor .preview {
   min-width: 40px !important;
 }
 
-.smeditor .backup:before , .smeditor .restore:before {
+.smeditor .backup:before , .smeditor .restore:before, .smeditor .preview:before {
   color: rgb(51, 51, 51);
   font-family: Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
   line-height: 28px;
@@ -628,6 +639,10 @@ function getSelectedNode () {
 
 .smeditor .restore:before {
   content: "恢复";
+}
+
+.smeditor .preview:before {
+  content: "预览";
 }
 
 .smeditor .blockquote blockquote {
@@ -665,7 +680,7 @@ function getSelectedNode () {
   position: fixed;
   right: calc(50% - 0px);
   margin-right: -100px;
-  bottom: 30px;
+  bottom: 60px;
   width: 200px;
   height: 30px;
   line-height: 30px;
@@ -690,6 +705,7 @@ function getSelectedNode () {
   box-shadow: 0 2px 8px hsla(0,0%,70%,.8);
   transition-property: right;
   transition: all 0.3s;
+  font-size: 14px;
 }
 
 .smeditor .font-size, .smeditor .insert-options {
