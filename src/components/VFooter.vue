@@ -2,6 +2,7 @@
   <div class="vfooter">
     <li>@2018</li>
     <li><a href="https://github.com/ericjjj/smeditor" target="_blank">Github</a></li>
+    <li><a href="https://github.com/ericjjj/smeditor/issues" target="_blank">反馈</a></li>
     <li><router-link to='donation' target="_blank">捐助</router-link></li>
   </div>
 </template>

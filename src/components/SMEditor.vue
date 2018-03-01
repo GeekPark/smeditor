@@ -57,13 +57,15 @@
       </button>
       <button class='insert-options' v-on:click="isInsertShow = !isInsertShow">
         <span class="insert-options-label"></span>
-        <insert-options v-show="isInsertShow"
+        <insert-options
+         v-show="isInsertShow"
          :insertImage="insertImageClick"
          :insertLink="insertLink"
          :insertLine="insertLine"
          :insertAttachment="insertVideoClick"
          :insertQuote="insertQuote"
          :insertBlock="insertBlock"
+         :uploadImages='uploadImages'
          ></insert-options>
       </button>
       <button class="backup" @click='backupClick'></button>
@@ -208,16 +210,19 @@ export default {
       document.execCommand('forecolor', false, color)
       this.closeAlert()
     },
-    // 插入图片
+    // 点击插入图片
     insertImageClick (size, index) {
       this.closeAlert()
-      document.execCommand('insertHTML', false, `
-        <br><div class="image-desc">
-          <img class="uploaded-img" src="https://ws2.sinaimg.cn/large/006tNc79ly1fni9fylw8zj30fa0a13yt.jpg" width="auto" height="auto">
-          <br>
-          <div class="image-caption"></div>
-        </div><br>
-      `)
+      // document.execCommand('insertHTML', false, `
+      //   <br><div class="image-desc">
+      //     <img class="uploaded-img" src="https://ws2.sinaimg.cn/large/006tNc79ly1fni9fylw8zj30fa0a13yt.jpg" width="auto" height="auto">
+      //     <br>
+      //     <div class="image-caption"></div>
+      //   </div><br>
+      // `)
+    },
+    uploadImages (files) {
+      console.log(files)
     },
     // 点击插入链接
     insertLinkClick () {
@@ -350,8 +355,6 @@ export default {
   },
   mounted () {
     document.execCommand('insertHTML', false, '<p><br></p>')
-    this.insertImageClick()
-
     // 焦点隐藏弹窗
     const self = this
     document.querySelector('.input-area').onfocus = function (event) {

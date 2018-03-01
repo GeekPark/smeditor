@@ -2,7 +2,15 @@
   <div class="insert-options-items">
     <ul>
       <li v-for='(key, index) in Object.keys(icons.insert)' @click='insertClick(key, index)'>
-        <input v-if='index === 0' id="img_input" type="file" accept="image/*"/>
+        <input
+          v-if='index === 0'
+          id="images_upload"
+          ref="input"
+          type="file"
+          accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
+          multiple="multiple"
+          @change="handleFileChange"
+        />
         <span v-html='icons.insert[key]' :class='key'></span>
         <span>{{labels[index]}}</span>
       </li>
@@ -11,6 +19,8 @@
 </template>
 <script type="text/javascript">
 import icons from './icons.js'
+const prop = Object.keys(icons.insert)
+prop.push('uploadImages')
 export default {
   name: 'Insert',
   data () {
@@ -19,10 +29,14 @@ export default {
       labels: ['图片', '分割线', '视频', '引用', '代码块']
     }
   },
-  props: Object.keys(icons.insert),
+  props: prop,
   methods: {
+    handleFileChange () {
+      let input = this.$refs.input[0]
+      let files = input.files
+      this.uploadImages(files)
+    },
     insertClick (key, index) {
-      console.log(key, index)
       if (this[key]) {
         this[key]()
       }
@@ -72,7 +86,7 @@ export default {
   margin-right: 15px;
 }
 
-.insert-options-items #img_input {
+.insert-options-items #images_upload {
   position: absolute;
   z-index: 2;
   top: 0;
