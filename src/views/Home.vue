@@ -11,7 +11,7 @@
 
 <script>
 import SMEditor from '@/components/SMEditor.vue'
-import VFooter from '@/components/VFooter.vue'
+import VFooter from '@/views/VFooter.vue'
 export default {
   name: 'app',
   components: {

@@ -220,10 +220,12 @@ export default {
     // 上传图片
     uploadImages (files) {
       Array.from(files).forEach(file => {
-        this.upload(file)
+        this.upload(file, (url) => {
+          this.insertImageHtml(url)
+        })
       })
     },
-    upload (file) {
+    upload (file, success) {
       // 请求的后端方法
       var url = 'http://main_test.geekpark.net/api/v1/admin/images?roles=dev'
       // 初始化一个 XMLHttpRequest 对象
@@ -241,18 +243,21 @@ export default {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
             console.log(JSON.parse(xhr.responseText))
-            document.execCommand('insertHTML', false, `
-              <br><div class="image-desc">
-                <img class="uploaded-img" src=${JSON.parse(xhr.responseText).image.url} max-width="100%" width="auto" height="auto">
-                <br>
-                <div class="image-caption"></div>
-              </div><br>
-            `)
+            success(JSON.parse(xhr.responseText).image.url)
           } else {
             alert('upload failed!')
           }
         }
       }
+    },
+    insertImageHtml (url, other = '') {
+      document.execCommand('insertHTML', false, `
+              <br><div class="image-desc">
+                <img class="uploaded-img" src=${url} max-width="100%" width="auto" height="auto">
+                <br>
+                <div class="image-caption"></div>
+              </div>${other}
+            `)
     },
     // 点击插入链接
     insertLinkClick () {
@@ -438,6 +443,25 @@ export default {
         return false
       }
     }
+    document.querySelector('.input-area').addEventListener('paste', function (event) {
+      event.preventDefault()
+      let items = (event.clipboardData || event.originalEvent.clipboardData).items
+      for (let index in items) {
+        let item = items[index]
+        if (item.kind === 'file') {
+          let blob = item.getAsFile()
+          let filename = event.clipboardData.getData('text')
+          self.upload(blob, (url) => {
+            const elid = `image-${Date.now()}`
+            document.querySelectorAll('.uploaded-img').forEach(el => {
+              el.parentNode.parentNode.innerHTML = el.parentNode.parentNode.innerHTML.replace(filename, '')
+              document.getSelection().collapse(document.querySelector(`.${elid}`), 0)
+            })
+            self.insertImageHtml(url, `<div class="${elid}"><span></br></span></div>`)
+          })
+        }
+      }
+    }, false)
   }
 }
 

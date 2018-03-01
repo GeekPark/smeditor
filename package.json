@@ -1,9 +1,8 @@
 {
   "name": "smeditor",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "smeditor",
   "author": "eric <github@ericjj.com>",
-  "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
