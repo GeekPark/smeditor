@@ -227,7 +227,7 @@ export default {
     },
     upload (file, success) {
       // 请求的后端方法
-      var url = 'http://main_test.geekpark.net/api/v1/admin/images?roles=dev'
+      var url = ''
       // 初始化一个 XMLHttpRequest 对象
       var xhr = new XMLHttpRequest()
       // 初始化一个 FormData 对象
@@ -252,10 +252,10 @@ export default {
     },
     insertImageHtml (url, other = '') {
       document.execCommand('insertHTML', false, `
-              <br><div class="image-desc">
+              <br><div class="image-desc" style="text-align: center; color: #333;">
                 <img class="uploaded-img" src=${url} max-width="100%" width="auto" height="auto">
                 <br>
-                <div class="image-caption"></div>
+                <div class="image-caption" style="min-width: 20%; max-width: 80%; height: 35px; display: inline-block; padding: 10px 10px 0px 10px; margin: 0 auto; border-bottom: 1px solid #d9d9d9; font-size: 16px; color: #999; content: "";"></div>
               </div>${other}
             `)
     },
@@ -450,14 +450,8 @@ export default {
         let item = items[index]
         if (item.kind === 'file') {
           let blob = item.getAsFile()
-          let filename = event.clipboardData.getData('text')
           self.upload(blob, (url) => {
-            const elid = `image-${Date.now()}`
-            document.querySelectorAll('.uploaded-img').forEach(el => {
-              el.parentNode.parentNode.innerHTML = el.parentNode.parentNode.innerHTML.replace(filename, '')
-              document.getSelection().collapse(document.querySelector(`.${elid}`), 0)
-            })
-            self.insertImageHtml(url, `<div class="${elid}"><span></br></span></div>`)
+            self.insertImageHtml(url)
           })
         }
       }
@@ -675,29 +669,6 @@ function getSelectedNode () {
   border-left: 5px solid #f0f0f0;
   margin-top: 0px;
   margin-bottom: 0px;
-}
-
-.smeditor .image-caption {
-  min-width: 20%;
-  max-width: 80%;
-  height: 35px;
-  display: inline-block;
-  padding: 10px 10px 0px 10px;
-  margin: 0 auto;
-  border-bottom: 1px solid #d9d9d9;
-  font-size: 16px;
-  color: #999;
-  content: "";
-}
-
-.smeditor .image-caption:empty{
-  display: inline-block;
-  content: "";
-}
-
-.smeditor .image-desc {
-  text-align: center;
-  color: #333;
 }
 
 .smeditor .select-words {
