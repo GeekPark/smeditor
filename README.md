@@ -2,9 +2,14 @@
 
 > ✎ 基于 Vue.js 2.0+ 石墨文档样式的富文本编辑器, 轻量, 快速, 优雅
 
-预览: https://ericjj.com/smeditor.github.io/
+在线预览: https://ericjj.com/smeditor.github.io/
+
 反馈: https://github.com/ericjjj/smeditor/issues
+
 联系: github@ericjj.com
+
+关于作者: https://ericjj.com/about/
+
 
 ## 起因
 之前一直使用的 [wangEditor](https://www.kancloud.cn/wangfupeng/wangeditor3/332599) 不能满足 [我司](http://geekpark.net) 编辑需求, 使用过程中也出了很多问题,  [simditor](http://simditor.tower.im/) 体验之后效果不是很好, 并且也不维护了; [极客公园后台管理系统](https://github.com/GeekPark/gpk_admin)技术选型已经转向了 Vue, 所以就有了这个轮子;
@@ -31,3 +36,8 @@ Vue.use(smeditor)
 ```
 
 
+## 打赏
+
+如果你感觉有收获，欢迎给我打赏 ———— 以激励我更多输出优质开源内容
+
+![](https://ws4.sinaimg.cn/large/006tNc79ly1fnyqbykokqj30w00w0wh9.jpg)
