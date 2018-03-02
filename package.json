@@ -8,8 +8,14 @@
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
+    "smeditor": "webpack --config build/webpack.smeditor.conf.js",
     "gp": "./gp.sh"
   },
+  "main": "dist/smeditor.js",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
     "tippy.js": "^2.0.9",
     "vue": "^2.5.2",

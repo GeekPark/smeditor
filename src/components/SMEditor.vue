@@ -117,6 +117,7 @@ export default {
     'insert-link': InsertLink,
     'insert-video': InsertVideo
   },
+  props: ['config'],
   data () {
     return {
       // 图标
@@ -227,7 +228,7 @@ export default {
     },
     upload (file, success) {
       // 请求的后端方法
-      var url = ''
+      var url = 'http://main_test.geekpark.net/api/v1/admin/images?roles=dev'
       // 初始化一个 XMLHttpRequest 对象
       var xhr = new XMLHttpRequest()
       // 初始化一个 FormData 对象
@@ -316,7 +317,6 @@ export default {
       } else if (document.selection) {
         savedRange.select()
       }
-      console.log(text)
       document.execCommand('insertHTML', false, text)
     },
     // 取消插入链接
@@ -398,65 +398,67 @@ export default {
   },
   mounted () {
     document.execCommand('insertHTML', false, '<p><br></p>')
-    // 焦点隐藏弹窗
-    const self = this
-    document.querySelector('.input-area').onfocus = function (event) {
-      self.closeAlert()
-    }
-    focus('.input-area')
-    // 回车事件
-    document.querySelector('.input-area').onkeypress = function (event) {
-      const el = getSelectedNode()
-      if (event.keyCode === 13 && isImageCaption(el)) {
-        document.execCommand('removeFormat', false, '')
-        this.innerHTML = this.innerHTML + '<p><br></p>'
-        document.getSelection().collapse(this, this.childNodes.length - 1)
-        return false
-      }
-      if (event.keyCode === 13 && el.className === 'blockquote' && el.lastChild.innerHTML === '<br>') {
-        el.lastChild.innerHTML = ''
-        document.execCommand('removeFormat', false, '')
-        this.innerHTML = this.innerHTML + '<p></p>'
-        document.getSelection().collapse(this, this.childNodes.length - 1)
-        return false
-      }
-
-      if (event.keyCode === 13 && el.localName === 'pre' && el.lastChild.innerHTML === '<br>') {
-        el.lastChild.innerHTML = ''
-        document.execCommand('removeFormat', false, '')
-        this.innerHTML = this.innerHTML + '<p><span><br></span></p>'
-        document.getSelection().collapse(this, this.childNodes.length - 1)
-        return false
-      }
-    }
-    // 删除事件
-    document.querySelector('.input-area').onkeydown = function (event) {
-      const el = getSelectedNode()
-      if (event.keyCode === 8 && isImageDesc(el)) {
-        el.innerHTML = '<p></p>'
-        return false
-      }
-      if (el.innerHTML.length <= 1 &&
-          event.keyCode === 8 &&
-          isImageCaption(el)) {
-        el.innerHTML = ''
-        return false
-      }
-    }
-    document.querySelector('.input-area').addEventListener('paste', function (event) {
-      event.preventDefault()
-      let items = (event.clipboardData || event.originalEvent.clipboardData).items
-      for (let index in items) {
-        let item = items[index]
-        if (item.kind === 'file') {
-          let blob = item.getAsFile()
-          self.upload(blob, (url) => {
-            self.insertImageHtml(url)
-          })
-        }
-      }
-    }, false)
+    addEvents(this)
   }
+}
+
+function addEvents (self) {
+  document.querySelector('.input-area').onfocus = function (event) {
+    self.closeAlert()
+  }
+  focus('.input-area')
+  // 回车事件
+  document.querySelector('.input-area').onkeypress = function (event) {
+    const el = getSelectedNode()
+    if (event.keyCode === 13 && isImageCaption(el)) {
+      document.execCommand('removeFormat', false, '')
+      this.innerHTML = this.innerHTML + '<p><br></p>'
+      document.getSelection().collapse(this, this.childNodes.length - 1)
+      return false
+    }
+    if (event.keyCode === 13 && el.className === 'blockquote' && el.lastChild.innerHTML === '<br>') {
+      el.lastChild.innerHTML = ''
+      document.execCommand('removeFormat', false, '')
+      this.innerHTML = this.innerHTML + '<p></p>'
+      document.getSelection().collapse(this, this.childNodes.length - 1)
+      return false
+    }
+
+    if (event.keyCode === 13 && el.localName === 'pre' && el.lastChild.innerHTML === '<br>') {
+      el.lastChild.innerHTML = ''
+      document.execCommand('removeFormat', false, '')
+      this.innerHTML = this.innerHTML + '<p><span><br></span></p>'
+      document.getSelection().collapse(this, this.childNodes.length - 1)
+      return false
+    }
+  }
+  // 删除事件
+  document.querySelector('.input-area').onkeydown = function (event) {
+    const el = getSelectedNode()
+    if (event.keyCode === 8 && isImageDesc(el)) {
+      el.innerHTML = '<p></p>'
+      return false
+    }
+    if (el.innerHTML.length <= 1 &&
+        event.keyCode === 8 &&
+        isImageCaption(el)) {
+      el.innerHTML = ''
+      return false
+    }
+  }
+  document.querySelector('.input-area').addEventListener('paste', function (event) {
+    event.preventDefault()
+    let items = (event.clipboardData || event.originalEvent.clipboardData).items
+    for (let index in items) {
+      let item = items[index]
+      if (item.kind === 'file') {
+        let blob = item.getAsFile()
+        self.upload(blob, (url) => {
+          self.insertImageHtml(url)
+        })
+      }
+    }
+  }, false)
 }
 
 function isImageCaption (el) {
@@ -521,7 +523,7 @@ function getSelectedNode () {
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style>
 .smeditor {
-  width: 50%;
+  width: 70%;
   margin: 0 auto;
   position: relative;
   z-index: 2;
