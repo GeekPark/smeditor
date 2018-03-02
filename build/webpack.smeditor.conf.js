@@ -21,8 +21,8 @@ module.exports = {
         main: './src/smeditor.js'
     },
     output: {
-        path: path.resolve(__dirname, '../dist'),
-        publicPath: '/dist/',
+        path: path.resolve(__dirname, '../release'),
+        publicPath: '/release/',
         filename: 'smeditor.js',
         library: 'smeditor',
         libraryTarget: 'umd',
@@ -39,7 +39,7 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.vue', '.json'],
         alias: {
-          'vue$': 'vue/dist/vue.esm.js',
+          'vue$': 'vue/release/vue.esm.js',
           '@': resolve('src'),
         }
     },
@@ -92,6 +92,6 @@ module.exports = {
           minRatio: 0.8
         }),
 
-        new BundleAnalyzerPlugin()
+        // new BundleAnalyzerPlugin()
     ]
 }

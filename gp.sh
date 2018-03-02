@@ -1,5 +1,5 @@
 #! /bin/bash
-npm run build
+npm run pages
 rm -rf ../smeditor.github.io/index.html ../smeditor.github.io/static
 mv dist/* ../smeditor.github.io/
 cd ../smeditor.github.io

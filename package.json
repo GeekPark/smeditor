@@ -1,17 +1,17 @@
 {
   "name": "smeditor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "smeditor",
   "author": "eric <github@ericjj.com>",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
-    "temp": "node build/build.js",
+    "pages": "node build/build.js",
     "build": "webpack --config build/webpack.smeditor.conf.js",
     "gp": "./gp.sh"
   },
-  "main": "dist/smeditor.js",
+  "main": "release/smeditor.js",
   "files": [
     "dist",
     "src"
