@@ -2,16 +2,16 @@
   <div class="smeditor" id="smeditor">
     <div class="buttons">
       <button class='undo' v-on:click='undo' v-on:mouseover.stop='mouseover($event)' title="撤销">
-        <span v-html='icons.undo'></span>
+        <img :src="icons.undo"></img>
       </button>
       <button class='redo' v-on:click='redo' v-on:mouseover.stop='mouseover($event)' title="重做">
-        <span v-html='icons.redo'></span>
+        <img :src='icons.redo'></img>
       </button>
       <button class='remove-format'
               title="清式"
               v-on:click='removeFormat'
               v-on:mouseover.stop='mouseover($event)'>
-        <span v-html='icons.removeFormat'></span>
+        <img :src='icons.removeFormat'></img>
       </button>
       <button class="font-size"
               title="字号"
@@ -20,40 +20,40 @@
         <span> {{fontSize}} </span>
         <font-size-picker v-bind:FontSizePickerClick="FontSizePickerClick" v-show="isFontSizePickerShow"></font-size-picker>
       </button>
-      <button v-for='(icon, name) in icons.basic'
+      <button v-for='(name, index) in basicIcons'
               @click='basicStyleClick(name)'
               v-bind:class="{buttonsActive: styles.indexOf(name) > -1}"
               v-on:mouseover.stop='mouseover($event)'
-              v-bind:title='basicStyleNames[Object.keys(icons.basic).indexOf(name)]'>
-        <span v-html='icon'></span>
+              v-bind:title='basicStyleNames[Object.keys(basicIcons).indexOf(name)]'>
+        <img :src='icons[name]'></img>
       </button>
       <button v-on:mouseover.stop='mouseover($event)' title="文本颜色">
-        <span v-html='icons.color' v-on:click="isColorPickerShow = !isColorPickerShow"></span>
-        <color-picker v-bind:ColorPickerClick="ColorPickerClick" v-show="isColorPickerShow"></color-picker>
+        <img :src='icons.color' v-on:click="isColorPickerShow = !isColorPickerShow"></img>
+        <color-picker :ColorPickerClick="ColorPickerClick" v-show="isColorPickerShow"></color-picker>
       </button>
       <button class='indent' v-on:click='indent' v-on:mouseover.stop='mouseover($event)' title="增加缩进">
-        <span v-html='icons.indent'></span>
+        <img :src='icons.indent'></img>
       </button>
       <button class='outdent' v-on:click='outdent' v-on:mouseover.stop='mouseover($event)' title="减少缩进">
-        <span v-html='icons.outdent'></span>
+        <img :src='icons.outdent'></img>
       </button>
       <button class='insert-ol' v-on:click='insertList("OrderedList")' v-on:mouseover.stop='mouseover($event)' title="有序列表">
-        <span v-html='icons.listOrdered'></span>
+        <img :src='icons.listOrdered'></img>
       </button>
       <button class='insert-ul' v-on:click='insertList("UnorderedList")' v-on:mouseover.stop='mouseover($event)' title="无序列表">
-        <span v-html='icons.listUnordered'></span>
+        <img :src='icons.listUnordered'></img>
       </button>
       <button class='align-left' v-on:click='align("Left")' v-on:mouseover.stop='mouseover($event)' title="左对齐">
-        <span v-html='icons.alignLeft'></span>
+        <img :src='icons.alignLeft'></img>
       </button>
       <button class='align-center' v-on:click='align("Center")' v-on:mouseover.stop='mouseover($event)' title="居中对齐">
-        <span v-html='icons.alignCenter'></span>
+        <img :src='icons.alignCenter'></img>
       </button>
       <button class='align-right' v-on:click='align("Right")'  v-on:mouseover.stop='mouseover($event)' title='右对齐'>
-        <span v-html='icons.alignRight'></span>
+        <img :src='icons.alignRight'></img>
       </button>
       <button class='insert-link' v-on:click='insertLinkClick'  v-on:mouseover.stop='mouseover($event)' title='插入链接'>
-        <span v-html='icons.insertLink'></span>
+        <img :src='icons.insertLink'></img>
       </button>
       <button class='insert-options' v-on:click="isInsertShow = !isInsertShow">
         <span class="insert-options-label"></span>
@@ -62,7 +62,7 @@
          :insertImage="insertImageClick"
          :insertLink="insertLink"
          :insertLine="insertLine"
-         :insertAttachment="insertVideoClick"
+         :insertVideo="insertVideoClick"
          :insertQuote="insertQuote"
          :insertBlock="insertBlock"
          :uploadImages='uploadImages'
@@ -98,7 +98,7 @@ import FontSizePicker from './FontSizePicker.vue'
 import InsertLink from './InsertLink.vue'
 import InsertVideo from './InsertVideo.vue'
 import Insert from './Insert.vue'
-import tippy from '../../node_modules/tippy.js/dist/tippy.min.js'
+// import tippy from '../../node_modules/tippy.js/dist/tippy.min.js'
 const remove = function (arr, val) {
   let index = arr.indexOf(val)
   if (index > -1) {
@@ -125,6 +125,7 @@ export default {
       // 样式
       styles: [],
       // 基本样式名称
+      basicIcons: ['bold', 'underline', 'italic', 'strikethrough'],
       basicStyleNames: ['粗体', '斜体', '下划线', '中划线'],
       // 调色盘是否显示
       isColorPickerShow: false,
@@ -210,7 +211,7 @@ export default {
     },
     // 调色盘点击
     ColorPickerClick (color) {
-      document.querySelector('.ql-color-label').style.fill = color
+      // document.querySelector('.ql-color-label').style.fill = color
       document.execCommand('forecolor', false, color)
       this.closeAlert()
     },
@@ -227,17 +228,11 @@ export default {
       })
     },
     upload (file, success) {
-      // 请求的后端方法
       var url = 'http://main_test.geekpark.net/api/v1/admin/images?roles=dev'
-      // 初始化一个 XMLHttpRequest 对象
       var xhr = new XMLHttpRequest()
-      // 初始化一个 FormData 对象
       var form = new FormData()
-      // 携带文件
       form.append('upload_file', file)
-      // 开始上传
       xhr.open('POST', url, true)
-      // 在readystatechange事件上绑定一个事件处理函数
       xhr.onreadystatechange = callback
       xhr.send(form)
       function callback () {
@@ -265,25 +260,10 @@ export default {
       this.closeAlert()
       this.cursor = window.getSelection().getRangeAt(0)
       this.isInsertLinkShow = true
-      this.isInsertShow = false
     },
     // 插入链接
     insertLink (url, title) {
-      this.closeAlert()
-      this.isInsertLinkShow = false
-      document.querySelector('.input-area').focus()
-      const savedRange = this.cursor
-      if (window.getSelection) {
-        var s = window.getSelection()
-        if (s.rangeCount > 0) {
-          s.removeAllRanges()
-        }
-        s.addRange(savedRange)
-      } else if (document.createRange) {
-        window.getSelection().addRange(savedRange)
-      } else if (document.selection) {
-        savedRange.select()
-      }
+      restoreCursor(this)
       document.execCommand('insertHTML', false, `<a href=${url} target="_blank">${title}</>`)
     },
     // 取消插入链接
@@ -296,27 +276,10 @@ export default {
       this.closeAlert()
       this.cursor = window.getSelection().getRangeAt(0)
       this.isInsertVideoShow = true
-      setTimeout(() => {
-        this.isInsertShow = false
-      }, 200)
     },
     // 插入链接
     insertVideo (text) {
-      this.closeAlert()
-      this.isInsertVideoShow = false
-      document.querySelector('.input-area').focus()
-      const savedRange = this.cursor
-      if (window.getSelection) {
-        var s = window.getSelection()
-        if (s.rangeCount > 0) {
-          s.removeAllRanges()
-        }
-        s.addRange(savedRange)
-      } else if (document.createRange) {
-        window.getSelection().addRange(savedRange)
-      } else if (document.selection) {
-        savedRange.select()
-      }
+      restoreCursor(this)
       document.execCommand('insertHTML', false, text)
     },
     // 取消插入链接
@@ -480,47 +443,24 @@ function getSelectedNode () {
   }
 }
 
-// 设置光标位置
-// function setCaretPosition (textDom, pos) {
-//   if (textDom.setSelectionRange) {
-//     textDom.focus()
-//     textDom.setSelectionRange(pos, pos)
-//   } else if (textDom.createTextRange) {
-//     var range = textDom.createTextRange()
-//     range.collapse(true)
-//     range.moveEnd('character', pos)
-//     range.moveStart('character', pos)
-//     range.select()
-//   }
-// }
-
-// 获取光标位置
-// function getCursortPosition (textDom) {
-//   var cursorPos = 0
-//   if (document.selection) {
-//     textDom.focus()
-//     var selectRange = document.selection.createRange()
-//     selectRange.moveStart('character', -textDom.value.length)
-//     cursorPos = selectRange.text.length
-//   } else if (textDom.selectionStart || textDom.selectionStart === '0') {
-//     cursorPos = textDom.selectionStart
-//   }
-//   return cursorPos
-// }
-
-// function findParentByTagName (root, name) {
-//   let parent = root
-//   if (typeof name === 'string') {
-//     name = [name]
-//   }
-//   while (name.indexOf(parent.nodeName.toLowerCase()) === -1 && parent.nodeName !== 'BODY' && parent.nodeName !== 'HTML') {
-//     parent = parent.parentNode
-//   }
-//   return parent.nodeName === 'BODY' || parent.nodeName === 'HTML' ? null : parent
-// }
+function restoreCursor (self) {
+  self.closeAlert()
+  self.isInsertLinkShow = false
+  document.querySelector('.input-area').focus()
+  const savedRange = self.cursor
+  if (window.getSelection) {
+    var s = window.getSelection()
+    if (s.rangeCount > 0) {
+      s.removeAllRanges()
+    }
+    s.addRange(savedRange)
+  } else if (document.createRange) {
+    window.getSelection().addRange(savedRange)
+  } else if (document.selection) {
+    savedRange.select()
+  }
+}
 </script>
-
-<!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style>
 .smeditor {
   width: 70%;
@@ -727,7 +667,7 @@ function getSelectedNode () {
 .smeditor .insert-options:before {
   content: "\63D2\5165";
   color: #333;
-  font-family: Helvetica,Tahoma,Arial,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
+  font-family: 'Helvetica,Tahoma,Arial,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif';
   line-height: 28px;
   font-size: 12px;
   float: left;

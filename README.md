@@ -21,6 +21,7 @@
 - [x] 轻量级备份, 恢复, 预览
 - [x] 代码精简, 适合二次开发
 - [x] 其他编辑器有的功能
+- [x] 一共 48 KB
 
 ## 使用
 
@@ -35,6 +36,11 @@ import smeditor from smeditor
 Vue.use(smeditor)
 ```
 
+#### 快捷键
+```
+Ctrl + S 保存
+Ctrl + P 预览(新窗口)
+```
 
 ## 打赏
 

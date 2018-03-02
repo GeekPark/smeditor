@@ -6,7 +6,7 @@
   </span>
 </template>
 <script type="text/javascript">
-import tippy from '../../node_modules/tippy.js/dist/tippy.min.js'
+// import tippy from '../../node_modules/tippy.js/dist/tippy.min.js'
 
 export default {
   name: 'ColorPicker',
@@ -21,7 +21,7 @@ export default {
   methods: {
     handleColorHover (index) {
       this.selectColor = this.colors[index]
-      tippy(document.querySelectorAll('.color-picker-options span')[index])
+      // tippy(document.querySelectorAll('.color-picker-options span')[index])
     },
     handleColorClick (index) {
       this.selectColor = this.colors[index]
