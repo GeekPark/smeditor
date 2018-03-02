@@ -36,7 +36,7 @@ import smeditor from smeditor
 Vue.use(smeditor)
 ```
 
-#### 配置
+## 配置
 ```js
 {
   // 接口地址
@@ -57,13 +57,13 @@ Vue.use(smeditor)
 }
 ```
 
-#### 快捷键
+## 快捷键
 ```
 Ctrl + S 保存
 Ctrl + P 预览(新窗口)
 ```
 
-#### 本地运行
+## 本地运行
 
 ```
 npm run dev
