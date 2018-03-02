@@ -12,8 +12,4 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
 
-module.exports = {
-  version: '0.0.1',
-  install,
-  SMEditor
-}
+export default SMEditor

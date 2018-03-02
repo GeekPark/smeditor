@@ -29,16 +29,24 @@
 // 安装
 npm install smeditor
 
-// 使用
-import smeditor from smeditor
+// 引入
+import SMEditor from 'smeditor'
 
-// 全局组件 / .vue文件内引入
+// 全局组件
 Vue.use(smeditor)
+
+// 局部组件
+components: {
+  'smeditor': SMEditor
+}
+
+// 使用
+<smeditor :config='config'></smeditor>
 ```
 
 ## 配置
 ```js
-{
+const config = {
   // 接口地址
   uploadUrl: '',
   // form 里的 filename

@@ -10,7 +10,8 @@
 </template>
 
 <script>
-import SMEditor from '@/components/SMEditor.vue'
+// import SMEditor from '@/components/SMEditor.vue'
+import SMEditor from '../../release/smeditor.js'
 import VFooter from '@/views/VFooter.vue'
 
 const config = {
