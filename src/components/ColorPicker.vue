@@ -6,7 +6,7 @@
   </span>
 </template>
 <script type="text/javascript">
-import tippy from 'tippy.js'
+import tippy from '../../node_modules/tippy.js/dist/tippy.min.js'
 
 export default {
   name: 'ColorPicker',

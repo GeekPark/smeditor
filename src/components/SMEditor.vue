@@ -98,7 +98,7 @@ import FontSizePicker from './FontSizePicker.vue'
 import InsertLink from './InsertLink.vue'
 import InsertVideo from './InsertVideo.vue'
 import Insert from './Insert.vue'
-import tippy from 'tippy.js'
+import tippy from '../../node_modules/tippy.js/dist/tippy.min.js'
 const remove = function (arr, val) {
   let index = arr.indexOf(val)
   if (index > -1) {
@@ -171,12 +171,12 @@ export default {
           target = el
         }
       })
-      tippy(target, {
-        placement: 'bottom',
-        animation: 'shift-away',
-        duration: 100,
-        arrow: true
-      })
+      // tippy(target, {
+      //   placement: 'bottom',
+      //   animation: 'shift-away',
+      //   duration: 100,
+      //   arrow: true
+      // })
     },
     // 重做
     redo () {

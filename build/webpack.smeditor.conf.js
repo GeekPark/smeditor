@@ -1,13 +1,22 @@
 
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const config = require('../config')
+const webpack = require('webpack')
+const utils = require('./utils')
 const vueLoaderConfig = require('./vue-loader.conf')
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-
 module.exports = {
+    devtool: config.build.productionSourceMap ? config.build.devtool : false,
     entry: {
         main: './src/smeditor.js'
     },
@@ -55,10 +64,34 @@ module.exports = {
             }
         }),
         new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
+          compress: {
+            warnings: false
+          },
+          sourceMap: config.build.productionSourceMap,
+          parallel: true
         }),
-        new webpack.optimize.OccurrenceOrderPlugin()
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new OptimizeCSSPlugin({
+          cssProcessorOptions: config.build.productionSourceMap
+          ? { safe: true, map: { inline: false } }
+          : { safe: true }
+        }),
+        new webpack.HashedModuleIdsPlugin(),
+        // enable scope hoisting
+        new webpack.optimize.ModuleConcatenationPlugin(),
+        // split vendor js into its own file
+        new CompressionWebpackPlugin({
+          asset: '[path].gz[query]',
+          algorithm: 'gzip',
+          test: new RegExp(
+            '\\.(' +
+            config.build.productionGzipExtensions.join('|') +
+            ')$'
+          ),
+          threshold: 10240,
+          minRatio: 0.8
+        }),
+
+        new BundleAnalyzerPlugin()
     ]
 }
