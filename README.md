@@ -15,13 +15,13 @@
 之前一直使用的 [wangEditor](https://www.kancloud.cn/wangfupeng/wangeditor3/332599) 不能满足 [我司](http://geekpark.net) 编辑需求, 使用过程中也出了很多问题,  [simditor](http://simditor.tower.im/) 体验之后效果不是很好, 并且也不维护了; [极客公园后台管理系统](https://github.com/GeekPark/gpk_admin)技术选型已经转向了 Vue, 所以就有了这个轮子;
 
 ## 功能
-- [x] 轻, 快
+- [x] 轻, 快 48 KB
 - [x] 自动添加图片描述框 (类似简书)
 - [x] 复制上传, 多张批量上传
 - [x] 轻量级备份, 恢复, 预览
 - [x] 代码精简, 适合二次开发
 - [x] 其他编辑器有的功能
-- [x] 一共 48 KB
+- [ ] 移动端
 
 ## 使用
 
@@ -34,6 +34,27 @@ import smeditor from smeditor
 
 // 全局组件 / .vue文件内引入
 Vue.use(smeditor)
+```
+
+#### 配置
+```js
+{
+  // 接口地址
+  uploadUrl: '',
+  // form 里的 filename
+  uploadName: '',
+  // 其他参数
+  uploadParams: {},
+  // 上传成功回调
+  uploadCallback: (data) => {
+    console.log(data)
+    return 'blob:https://fiddle.jshell.net/00a0b0b4-d19a-4860-9796-137692aef36f'
+  },
+  // 上传失败回调, 可选
+  uploadFailed: (err) => {
+    console.log(err)
+  }
+}
 ```
 
 #### 快捷键

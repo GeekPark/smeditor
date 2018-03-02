@@ -4,7 +4,7 @@
       <span>(石墨文档编辑器)</span>
     </div>
     <div class="bg"></div>
-    <smeditor class="smeditor-wrapper"></smeditor>
+    <smeditor class="smeditor-wrapper" :config='config'></smeditor>
     <vfooter></vfooter>
   </div>
 </template>
@@ -12,11 +12,35 @@
 <script>
 import SMEditor from '@/components/SMEditor.vue'
 import VFooter from '@/views/VFooter.vue'
+
+const config = {
+  // 接口地址
+  uploadUrl: 'https://jsonplaceholder.typicode.com/posts/',
+  // form 里的 filename
+  uploadName: '',
+  // 其他参数
+  uploadParams: {},
+  // 上传成功回调
+  uploadCallback: (data) => {
+    console.log(data)
+    return 'blob:https://fiddle.jshell.net/00a0b0b4-d19a-4860-9796-137692aef36f'
+  },
+  // 上传失败回调, 可选
+  uploadFailed: (err) => {
+    console.log(err + '仅供测试, 并非真正上传')
+  }
+}
+
 export default {
   name: 'app',
   components: {
     'smeditor': SMEditor,
     'vfooter': VFooter
+  },
+  data () {
+    return {
+      config: config
+    }
   }
 }
 </script>

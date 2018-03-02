@@ -108,6 +108,11 @@ const remove = function (arr, val) {
 const focus = function (el) {
   document.querySelector(el).focus()
 }
+
+const editorElement = function () {
+  return document.querySelector('.smeditor .input-area')
+}
+
 export default {
   name: 'smeditor',
   components: {
@@ -201,7 +206,6 @@ export default {
     },
     // 基本样式点击
     basicStyleClick (name) {
-      console.log(name)
       document.execCommand(name, false, null)
       if (this.styles.indexOf(name) === -1) {
         this.styles.push(name)
@@ -228,32 +232,40 @@ export default {
       })
     },
     upload (file, success) {
-      var url = 'http://main_test.geekpark.net/api/v1/admin/images?roles=dev'
-      var xhr = new XMLHttpRequest()
-      var form = new FormData()
-      form.append('upload_file', file)
+      let url = this.config.uploadUrl
+      let xhr = new XMLHttpRequest()
+      let form = new FormData()
+      let self = this
+      form.append(this.config.uploadName, file)
       xhr.open('POST', url, true)
-      xhr.onreadystatechange = callback
-      xhr.send(form)
-      function callback () {
+      xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            console.log(JSON.parse(xhr.responseText))
-            success(JSON.parse(xhr.responseText).image.url)
+            const json = JSON.parse(xhr.responseText)
+            const imgUrl = self.config.uploadCallback(json)
+            success(imgUrl)
           } else {
+            if (self.config.uploadFailed) {
+              self.config.uploadFailed(xhr.responseText)
+            }
+            // 测试网站, 模拟上传
+            if (location.href.indexOf('ericjj.com/smeditor.github.io') > 0) {
+              const imgUrl = self.config.uploadCallback('')
+              success(imgUrl)
+            }
             alert('upload failed!')
           }
         }
       }
+      xhr.send(form)
     },
-    insertImageHtml (url, other = '') {
+    insertImageHtml (url) {
       document.execCommand('insertHTML', false, `
               <br><div class="image-desc" style="text-align: center; color: #333;">
                 <img class="uploaded-img" src=${url} max-width="100%" width="auto" height="auto">
                 <br>
                 <div class="image-caption" style="min-width: 20%; max-width: 80%; height: 35px; display: inline-block; padding: 10px 10px 0px 10px; margin: 0 auto; border-bottom: 1px solid #d9d9d9; font-size: 16px; color: #999; content: "";"></div>
-              </div>${other}
-            `)
+              </div>`)
     },
     // 点击插入链接
     insertLinkClick () {
@@ -299,7 +311,7 @@ export default {
     },
     // 插入引用
     insertQuote () {
-      document.execCommand('insertHTML', false, `<div class="blockquote"><blockquote><span><br></span></blockquote></div>`)
+      document.execCommand('insertHTML', false, `<div class="blockquote"><blockquote style="color: #B2B2B2; padding-left: 15px; border-left: 5px solid #B2B2B2; margin-top: 0px; margin-bottom: 0px;"><span><br></span></blockquote></div>`)
     },
     // 插入 有序/无序 列表
     insertList (name) {
@@ -336,15 +348,15 @@ export default {
     },
     // 备份
     backupClick () {
-      window.localStorage.setItem('smeditor', document.querySelector('.input-area').innerHTML)
+      window.localStorage.setItem('smeditor', editorElement().innerHTML)
     },
     // 恢复
     restoreClick () {
-      document.querySelector('.input-area').innerHTML = window.localStorage.getItem('smeditor') || ''
+      editorElement().innerHTML = window.localStorage.getItem('smeditor') || ''
     },
     // 预览
     previewClick () {
-      window.localStorage.setItem('smeditorPreview', document.querySelector('.input-area').innerHTML)
+      window.localStorage.setItem('smeditorPreview', editorElement().innerHTML)
       const {href} = this.$router.resolve({
         name: 'Preview'
       })
@@ -366,12 +378,12 @@ export default {
 }
 
 function addEvents (self) {
-  document.querySelector('.input-area').onfocus = function (event) {
+  editorElement().onfocus = function (event) {
     self.closeAlert()
   }
   focus('.input-area')
   // 回车事件
-  document.querySelector('.input-area').onkeypress = function (event) {
+  editorElement().onkeypress = function (event) {
     const el = getSelectedNode()
     if (event.keyCode === 13 && isImageCaption(el)) {
       document.execCommand('removeFormat', false, '')
@@ -396,7 +408,7 @@ function addEvents (self) {
     }
   }
   // 删除事件
-  document.querySelector('.input-area').onkeydown = function (event) {
+  editorElement().onkeydown = function (event) {
     const el = getSelectedNode()
     if (event.keyCode === 8 && isImageDesc(el)) {
       el.innerHTML = '<p></p>'
@@ -409,7 +421,7 @@ function addEvents (self) {
       return false
     }
   }
-  document.querySelector('.input-area').addEventListener('paste', function (event) {
+  editorElement().addEventListener('paste', function (event) {
     event.preventDefault()
     let items = (event.clipboardData || event.originalEvent.clipboardData).items
     for (let index in items) {
@@ -446,7 +458,7 @@ function getSelectedNode () {
 function restoreCursor (self) {
   self.closeAlert()
   self.isInsertLinkShow = false
-  document.querySelector('.input-area').focus()
+  editorElement().focus()
   const savedRange = self.cursor
   if (window.getSelection) {
     var s = window.getSelection()
@@ -603,14 +615,6 @@ function restoreCursor (self) {
 
 .smeditor .preview:before {
   content: "预览";
-}
-
-.smeditor .blockquote blockquote {
-  color: #BFBFBF;
-  padding-left: 15px;
-  border-left: 5px solid #f0f0f0;
-  margin-top: 0px;
-  margin-bottom: 0px;
 }
 
 .smeditor .select-words {
