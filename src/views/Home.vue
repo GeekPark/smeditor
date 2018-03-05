@@ -29,6 +29,7 @@ const config = {
   // 上传失败回调, 可选
   uploadFailed: (err) => {
     console.log(err + '仅供测试, 并非真正上传')
+    alert('仅供测试, 并非真正上传!')
   }
 }
 

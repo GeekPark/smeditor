@@ -253,7 +253,6 @@ export default {
               const imgUrl = self.config.uploadCallback('')
               success(imgUrl)
             }
-            alert('upload failed!')
           }
         }
       }
