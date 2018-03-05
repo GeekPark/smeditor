@@ -39,7 +39,7 @@ npm install smeditor
 import SMEditor from 'smeditor'
 
 // 全局组件
-Vue.use(smeditor)
+Vue.use(SMEditor)
 
 // 局部组件
 components: {
