@@ -1,5 +1,7 @@
 # SMEditor
 
+[![Build Status](https://travis-ci.org/ericjjj/smeditor.svg?branch=master)](https://travis-ci.org/ericjjj/smeditor)
+
 > ✎ 基于 Vue.js 2.0+ 石墨文档样式的富文本编辑器, 轻量, 快速, 优雅
 
 在线预览: https://ericjj.com/smeditor.github.io/
