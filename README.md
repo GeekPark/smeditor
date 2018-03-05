@@ -1,6 +1,10 @@
 # SMEditor
 
 [![Build Status](https://travis-ci.org/ericjjj/smeditor.svg?branch=master)](https://travis-ci.org/ericjjj/smeditor)
+[![Code Climate](https://codeclimate.com/github/ericjjj/smeditor/badges/gpa.svg)](https://codeclimate.com/github/ericjjj/smeditor)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Downloads](https://travis-ci.org/ericjjj/smeditor.svg?branch=master)](http://travis-ci.org/ericjjj/smeditor)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 > ✎ 基于 Vue.js 2.0+ 石墨文档样式的富文本编辑器, 轻量, 快速, 优雅
 
