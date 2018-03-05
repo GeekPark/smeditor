@@ -10,8 +10,8 @@
 </template>
 
 <script>
-// import SMEditor from '@/components/SMEditor.vue'
-import SMEditor from '../../release/smeditor.js'
+import SMEditor from '@/components/SMEditor.vue'
+// import SMEditor from '../../release/smeditor.js'
 import VFooter from '@/views/VFooter.vue'
 
 const config = {
@@ -24,7 +24,7 @@ const config = {
   // 上传成功回调
   uploadCallback: (data) => {
     console.log(data)
-    return 'blob:https://fiddle.jshell.net/00a0b0b4-d19a-4860-9796-137692aef36f'
+    return 'https://ws1.sinaimg.cn/large/006tNc79gy1fp1rdw7e90j30rs0rsacb.jpg'
   },
   // 上传失败回调, 可选
   uploadFailed: (err) => {
