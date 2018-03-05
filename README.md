@@ -88,4 +88,4 @@ npm run build
 ## 打赏
 
 如果你感觉有收获，欢迎给我打赏 ———— 以激励我更多输出优质开源内容
-<img src="https://ws4.sinaimg.cn/large/006tNc79ly1fnyqbykokqj30w00w0wh9.jpg" style="width: 200px; height:200px" />
+<img src="https://ws4.sinaimg.cn/large/006tNc79ly1fnyqbykokqj30w00w0wh9.jpg" width = "50%" />
