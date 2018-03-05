@@ -18,7 +18,7 @@
 
 
 ## 起因
-之前一直使用的 [wangEditor](https://www.kancloud.cn/wangfupeng/wangeditor3/332599) 不能满足 [我司](http://geekpark.net) 编辑需求, 使用过程中也出了很多问题,  [simditor](http://simditor.tower.im/) 体验之后效果不是很好, 并且也不维护了; [极客公园后台管理系统](https://github.com/GeekPark/gpk_admin)技术选型已经转向了 Vue, 所以就有了这个轮子;
+之前一直使用的 [wangEditor](https://www.kancloud.cn/wangfupeng/wangeditor3/332599) 不能满足我司编辑和PM需求, 使用过程中也出了很多问题,   [simditor](http://simditor.tower.im/) 体验之后效果不是很好, 并且也不维护了; [极客公园后台管理系统](https://github.com/GeekPark/gpk_admin)技术选型已经转向了 Vue, 所以就有了这个轮子;
 
 ## 功能
 - [x] 轻, 快 48 KB
