@@ -24,11 +24,11 @@ export default {
   data () {
     return {
       icons: icons,
-      labels: ['图片', '分割线', '视频', '引用', '代码块'],
-      names: ['insertImage', 'insertLine', 'insertVideo', 'insertQuote', 'insertBlock']
+      labels: ['图片', '分割线', '视频', '代码块'],
+      names: ['insertImage', 'insertLine', 'insertVideo', 'insertBlock']
     }
   },
-  props: ['insertImageClick', 'insertLink', 'insertLine', 'insertVideo', 'insertQuote', 'insertBlock', 'uploadImages'],
+  props: ['insertImageClick', 'insertLink', 'insertLine', 'insertVideo', 'insertBlock', 'uploadImages'],
   methods: {
     handleFileChange () {
       let input = this.$refs.input[0]

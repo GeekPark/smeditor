@@ -1,24 +1,28 @@
 <template>
   <div class="smeditor" id="smeditor">
     <div class="buttons">
-      <button class='undo' v-on:click='undo' v-on:mouseover.stop='mouseover($event)' title="撤销">
+      <button class='undo' @click='undo' v-on:mouseover.stop='mouseover($event)' title="撤销">
         <img :src="icons.undo"></img>
       </button>
-      <button class='redo' v-on:click='redo' v-on:mouseover.stop='mouseover($event)' title="重做">
+      <button class='redo' @click='redo' v-on:mouseover.stop='mouseover($event)' title="重做">
         <img :src='icons.redo'></img>
       </button>
       <button class='remove-format'
-              title="清式"
-              v-on:click='removeFormat'
+              title="清除"
+              @click='removeFormat'
               v-on:mouseover.stop='mouseover($event)'>
         <img :src='icons.removeFormat'></img>
       </button>
-      <button class="font-size"
+      <button class='set-font' @click="isTitlePickerShow = !isTitlePickerShow">
+        <span>H</span>
+         <title-picker v-bind:titlePickerClick="titlePickerClick" v-show="isTitlePickerShow"></title-picker>
+      </button>
+      <!-- <button class="font-size"
               title="字号"
-              v-on:click="isFontSizePickerShow = !isFontSizePickerShow"
+              @click="isFontSizePickerShow = !isFontSizePickerShow"
               v-on:mouseover.stop='mouseover($event)'>
         <span> {{fontSize}} </span>
-        <font-size-picker v-bind:FontSizePickerClick="FontSizePickerClick" v-show="isFontSizePickerShow"></font-size-picker>
+        <font-size-picker v-bind:FontSizePickerClick="FontSizePickerClick" v-show="isFontSizePickerShow"></font-size-picker> -->
       </button>
       <button v-for='(name, index) in basicIcons'
               @click='basicStyleClick(name)'
@@ -28,34 +32,37 @@
         <img :src='icons[name]'></img>
       </button>
       <button v-on:mouseover.stop='mouseover($event)' title="文本颜色">
-        <img :src='icons.color' v-on:click="isColorPickerShow = !isColorPickerShow"></img>
-        <color-picker :ColorPickerClick="ColorPickerClick" v-show="isColorPickerShow"></color-picker>
+        <img :src='icons.color' @click="isColorPickerShow = !isColorPickerShow"></img>
+        <color-picker :ColorPickerClick="colorPickerClick" v-show="isColorPickerShow"></color-picker>
       </button>
-      <button class='indent' v-on:click='indent' v-on:mouseover.stop='mouseover($event)' title="增加缩进">
+      <button class='indent' @click='indent' v-on:mouseover.stop='mouseover($event)' title="增加缩进">
         <img :src='icons.indent'></img>
       </button>
-      <button class='outdent' v-on:click='outdent' v-on:mouseover.stop='mouseover($event)' title="减少缩进">
+      <button class='outdent' @click='outdent' v-on:mouseover.stop='mouseover($event)' title="减少缩进">
         <img :src='icons.outdent'></img>
       </button>
-      <button class='insert-ol' v-on:click='insertList("OrderedList")' v-on:mouseover.stop='mouseover($event)' title="有序列表">
+      <button class='insert-ol' @click='insertList("OrderedList")' v-on:mouseover.stop='mouseover($event)' title="有序列表">
         <img :src='icons.listOrdered'></img>
       </button>
-      <button class='insert-ul' v-on:click='insertList("UnorderedList")' v-on:mouseover.stop='mouseover($event)' title="无序列表">
+      <button class='insert-ul' @click='insertList("UnorderedList")' v-on:mouseover.stop='mouseover($event)' title="无序列表">
         <img :src='icons.listUnordered'></img>
       </button>
-      <button class='align-left' v-on:click='align("Left")' v-on:mouseover.stop='mouseover($event)' title="左对齐">
+      <button class='align-left' @click='align("Left")' v-on:mouseover.stop='mouseover($event)' title="左对齐">
         <img :src='icons.alignLeft'></img>
       </button>
-      <button class='align-center' v-on:click='align("Center")' v-on:mouseover.stop='mouseover($event)' title="居中对齐">
+      <button class='align-center' @click='align("Center")' v-on:mouseover.stop='mouseover($event)' title="居中对齐">
         <img :src='icons.alignCenter'></img>
       </button>
-      <button class='align-right' v-on:click='align("Right")'  v-on:mouseover.stop='mouseover($event)' title='右对齐'>
+      <button class='align-right' @click='align("Right")'  v-on:mouseover.stop='mouseover($event)' title='右对齐'>
         <img :src='icons.alignRight'></img>
       </button>
-      <button class='insert-link' v-on:click='insertLinkClick'  v-on:mouseover.stop='mouseover($event)' title='插入链接'>
+      <button class="insert-quote" @click='insertQuote'>
+        <img :src="icons.insertQuote">
+      </button>
+      <button class='insert-link' @click='insertLinkClick'  v-on:mouseover.stop='mouseover($event)' title='插入链接'>
         <img :src='icons.insertLink'></img>
       </button>
-      <button class='insert-options' v-on:click="isInsertShow = !isInsertShow">
+      <button class='insert-options' @click="isInsertShow = !isInsertShow">
         <span class="insert-options-label"></span>
         <insert-options
          v-show="isInsertShow"
@@ -94,7 +101,7 @@
 <script>
 import icons from './icons.js'
 import ColorPicker from './ColorPicker.vue'
-import FontSizePicker from './FontSizePicker.vue'
+import TitlePicker from './TitlePicker.vue'
 import InsertLink from './InsertLink.vue'
 import InsertVideo from './InsertVideo.vue'
 import Insert from './Insert.vue'
@@ -117,7 +124,7 @@ export default {
   name: 'smeditor',
   components: {
     'color-picker': ColorPicker,
-    'font-size-picker': FontSizePicker,
+    'title-picker': TitlePicker,
     'insert-options': Insert,
     'insert-link': InsertLink,
     'insert-video': InsertVideo
@@ -134,6 +141,8 @@ export default {
       basicStyleNames: ['粗体', '斜体', '下划线', '中划线'],
       // 调色盘是否显示
       isColorPickerShow: false,
+      // 标题选择是否显示
+      isTitlePickerShow: false,
       // 字号选项是否显示
       isFontSizePickerShow: false,
       // 插入选项是否显示
@@ -194,15 +203,25 @@ export default {
     },
     // 移除格式
     removeFormat () {
-      document.execCommand('removeFormat')
+      document.execCommand('removeFormat', false, '')
+      document.execCommand('insertHTML', false, `<p></p>`)
       this.styles = []
       this.FontSize = 16
     },
     // 字号选项点击
-    FontSizePickerClick (size, index) {
+    fontSizePickerClick (size, index) {
       document.execCommand('FontSize', false, index + 1)
       this.fontSize = size
       this.closeAlert()
+    },
+    // 标题选项点击
+    titlePickerClick (size, index) {
+      this.closeAlert()
+      if (size.startsWith('H')) {
+        document.execCommand('insertHTML', false, `<${size}><br></${size}>`)
+      } else {
+        document.execCommand('insertHTML', false, `<p><br></p>`)
+      }
     },
     // 基本样式点击
     basicStyleClick (name) {
@@ -214,7 +233,7 @@ export default {
       }
     },
     // 调色盘点击
-    ColorPickerClick (color) {
+    colorPickerClick (color) {
       // document.querySelector('.ql-color-label').style.fill = color
       document.execCommand('forecolor', false, color)
       this.closeAlert()
@@ -285,18 +304,20 @@ export default {
     // 点击插入链接
     insertVideoClick () {
       this.closeAlert()
+      setTimeout(() => {
+        this.isInsertVideoShow = true
+      }, 200)
       this.cursor = window.getSelection().getRangeAt(0)
-      this.isInsertVideoShow = true
     },
     // 插入链接
     insertVideo (text) {
       restoreCursor(this)
       document.execCommand('insertHTML', false, text)
+      this.closeAlert()
     },
     // 取消插入链接
     insertVideoCancel () {
       this.closeAlert()
-      this.isInsertVideoShow = false
     },
     // 插入一条线
     insertLine () {
@@ -367,11 +388,15 @@ export default {
         this.isFontSizePickerShow = false
         this.isInsertShow = false
         this.isColorPickerShow = false
+        this.isInsertVideoShow = false
+        this.isTitlePickerShow = false
       }, 200)
     }
   },
   mounted () {
-    document.execCommand('insertHTML', false, '<p><br></p>')
+    setTimeout(() => {
+      document.execCommand('insertHTML', false, '<p><span></br></span></p>')
+    }, 500)
     addEvents(this)
   }
 }
@@ -591,11 +616,15 @@ function restoreCursor (self) {
 }
 
 
-.smeditor .backup, .smeditor .restore, .smeditor .preview {
+.smeditor .backup,
+.smeditor .restore,
+.smeditor .preview{
   min-width: 40px !important;
 }
 
-.smeditor .backup:before , .smeditor .restore:before, .smeditor .preview:before {
+.smeditor .backup:before,
+.smeditor .restore:before,
+.smeditor .preview:before {
   color: rgb(51, 51, 51);
   font-family: Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
   line-height: 28px;
@@ -652,17 +681,20 @@ function restoreCursor (self) {
   min-width: 40px !important;
 }
 
-.smeditor .font-size {
+.smeditor .font-size,
+.smeditor .set-font {
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 600;
 }
 
-.smeditor .font-size span {
+.smeditor .font-size span,
+.smeditor .set-font span {
   font-size: 14px;
   color: #333;
-  bottom: 1px;
+  bottom: -0.5px;
   font-family: 'Helvetica,Tahoma,Arial,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif';
   position: relative;
 }
@@ -675,6 +707,11 @@ function restoreCursor (self) {
   font-size: 12px;
   float: left;
   margin-left: 8px;
+}
+
+.smeditor .insert-quote img {
+  width: 20px;
+  margin-bottom: 1px;
 }
 
 .unchecked-list {
