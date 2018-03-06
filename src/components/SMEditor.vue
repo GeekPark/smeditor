@@ -331,7 +331,9 @@ export default {
     },
     // 插入引用
     insertQuote () {
-      document.execCommand('insertHTML', false, `<div class="blockquote"><blockquote style="color: #B2B2B2; padding-left: 15px; border-left: 5px solid #B2B2B2; margin-top: 0px; margin-bottom: 0px;"><span><br></span></blockquote></div>`)
+      if (getSelectedNode().className !== 'blockquote') {
+        document.execCommand('insertHTML', false, `<div class="blockquote"><blockquote style="color: #B2B2B2; padding-left: 15px; border-left: 5px solid #B2B2B2; margin-top: 0px; margin-bottom: 0px;"><span><br></span></blockquote></div>`)
+      }
     },
     // 插入 有序/无序 列表
     insertList (name) {
@@ -634,7 +636,7 @@ function restoreCursor (self) {
 }
 
 .smeditor .backup:before {
-  content: "备份";
+  content: "保存";
 }
 
 .smeditor .restore:before {
