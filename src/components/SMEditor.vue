@@ -254,18 +254,22 @@ export default {
     },
     // 基本样式点击
     basicStyleClick (name) {
-      document.execCommand(name, false, null)
-      if (this.styles.indexOf(name) === -1) {
-        this.styles.push(name)
-      } else {
-        remove(this.styles, name)
-      }
+      execCmd(this, () => {
+        document.execCommand(name, false, '')
+        if (this.styles.indexOf(name) === -1) {
+          this.styles.push(name)
+        } else {
+          remove(this.styles, name)
+        }
+      })
     },
     // 调色盘点击
     colorPickerClick (color) {
       // document.querySelector('.ql-color-label').style.fill = color
-      document.execCommand('forecolor', false, color)
-      this.closeAlert()
+      execCmd(this, () => {
+        document.execCommand('forecolor', false, color)
+        this.closeAlert()
+      })
     },
     // 点击插入图片
     insertImageClick (size, index) {
@@ -395,7 +399,9 @@ export default {
     },
     // 对齐
     align (name) {
-      document.execCommand(`Justify${name}`)
+      execCmd(this, () => {
+        document.execCommand(`Justify${name}`)
+      })
     },
     // 备份
     backupClick () {
@@ -489,6 +495,12 @@ function addEvents (self) {
       }
     }
   }, false)
+}
+
+function execCmd (self, callback) {
+  getCursor(self)
+  restoreCursor(self)
+  callback()
 }
 
 function getCursor (self) {
