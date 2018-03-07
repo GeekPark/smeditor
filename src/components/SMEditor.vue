@@ -448,11 +448,11 @@ function addEvents (self) {
     }
   }
   editorElement().addEventListener('paste', function (event) {
-    event.preventDefault()
     let items = (event.clipboardData || event.originalEvent.clipboardData).items
     for (let index in items) {
       let item = items[index]
       if (item.kind === 'file') {
+        event.preventDefault()
         let blob = item.getAsFile()
         self.upload(blob, (url) => {
           self.insertImageHtml(url)
