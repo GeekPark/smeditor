@@ -13,7 +13,7 @@
               v-on:mouseover.stop='mouseover($event)'>
         <img :src='icons.removeFormat'></img>
       </button>
-      <button class='set-font' @click="isTitlePickerShow = !isTitlePickerShow">
+      <button class='set-font' @click.stop="titleButtonClick">
         <span>H</span>
          <title-picker v-bind:titlePickerClick="titlePickerClick" v-show="isTitlePickerShow"></title-picker>
       </button>
@@ -156,7 +156,9 @@ export default {
       // 字号
       fontSize: 16,
       // 光标
-      cursor: {}
+      cursor: {},
+      // 鼠标选中节点
+      selectNode: {}
     }
   },
   methods: {
@@ -169,6 +171,7 @@ export default {
     },
     // 鼠标事件
     mouseup () {
+      this.selectNode = getSelectedNode()
       const str = window.getSelection().toString()
       if (str.length < 1) {
         return false
@@ -214,14 +217,38 @@ export default {
       this.fontSize = size
       this.closeAlert()
     },
+    // 标题按钮点击
+    titleButtonClick () {
+      getCursor(this)
+      this.isTitlePickerShow = !this.isTitlePickerShow
+    },
     // 标题选项点击
     titlePickerClick (size, index) {
-      this.closeAlert()
-      if (size.startsWith('H')) {
-        document.execCommand('insertHTML', false, `<${size}><br></${size}>`)
-      } else {
-        document.execCommand('insertHTML', false, `<p><br></p>`)
+      let node = getSelectedNode()
+      let html = ''
+      if (node.className === editorElement().className ||
+          node.className.startsWith('smeditor')) {
+        return false
       }
+      this.closeAlert()
+      restoreCursor(this)
+      if (size.startsWith('H')) {
+        if (node.localName.startsWith('h') && size === '正文') {
+          html = `<p>${node.innerHTML}</p>`
+        } else {
+          html = `<${size}>${node.innerHTML}</${size}>`
+        }
+      } else { // 正文
+        html = `<p>${node.innerHTML}</p>`
+      }
+      document.execCommand('insertHTML', false, html)
+      node.outerHTML = ''
+      // const range = document.createRange()
+      // range.selectNodeContents(node)
+      // range.collapse(false)
+      // const selection = window.getSelection()
+      // selection.removeAllRanges()
+      // selection.addRange(range)
     },
     // 基本样式点击
     basicStyleClick (name) {
@@ -288,7 +315,7 @@ export default {
     // 点击插入链接
     insertLinkClick () {
       this.closeAlert()
-      this.cursor = window.getSelection().getRangeAt(0)
+      getCursor(this)
       this.isInsertLinkShow = true
     },
     // 插入链接
@@ -307,7 +334,7 @@ export default {
       setTimeout(() => {
         this.isInsertVideoShow = true
       }, 200)
-      this.cursor = window.getSelection().getRangeAt(0)
+      getCursor(this)
     },
     // 插入链接
     insertVideo (text) {
@@ -460,6 +487,10 @@ function addEvents (self) {
       }
     }
   }, false)
+}
+
+function getCursor (self) {
+  self.cursor = window.getSelection().getRangeAt(0)
 }
 
 function isImageCaption (el) {

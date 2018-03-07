@@ -1,7 +1,7 @@
 <template>
   <div class="title-options">
     <ul>
-      <li v-for='(size, index) in sizes' v-on:click='handleFontSizeClick(size, index)' v-bind:class="{fontSizeActive: current === size}">
+      <li v-for='(size, index) in sizes' v-on:click.stop='handleFontSizeClick(size, index)' v-bind:class="{fontSizeActive: current === size}">
         <div v-html='getHtml(size, index)'></div>
       </li>
     </ul>
