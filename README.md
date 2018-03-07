@@ -33,7 +33,7 @@
 
 ```js
 // 安装
-npm install smeditor
+yarn install smeditor
 
 // 引入
 import SMEditor from 'smeditor'
@@ -83,6 +83,8 @@ Ctrl + P 预览(新窗口)
 npm run dev
 
 npm run build
+
+npm run gp
 ```
 
 ## 打赏

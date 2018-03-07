@@ -13,23 +13,23 @@
 import SMEditor from '@/components/SMEditor.vue'
 // import SMEditor from '../../release/smeditor.js'
 import VFooter from '@/views/VFooter.vue'
-
+// import c from './config.json'
 const config = {
   // 接口地址
   uploadUrl: 'https://jsonplaceholder.typicode.com/posts/',
   // form 里的 filename
-  uploadName: '',
+  uploadName: 'upload_file',
   // 其他参数
   uploadParams: {},
   // 上传成功回调
   uploadCallback: (data) => {
-    console.log(data)
-    return 'https://ws1.sinaimg.cn/large/006tNc79gy1fp1rdw7e90j30rs0rsacb.jpg'
+    // console.log(data)
+    return data.image.url || 'https://ws1.sinaimg.cn/large/006tNc79gy1fp1rdw7e90j30rs0rsacb.jpg'
   },
   // 上传失败回调, 可选
   uploadFailed: (err) => {
-    console.log(err + '仅供测试, 并非真正上传')
-    alert('仅供测试, 并非真正上传!')
+    // console.log('仅供测试, 并非真正上传')
+    alert('仅供测试, 并非真正上传!', err)
   }
 }
 
