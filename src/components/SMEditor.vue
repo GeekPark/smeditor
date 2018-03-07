@@ -224,14 +224,16 @@ export default {
     },
     // 标题选项点击
     titlePickerClick (size, index) {
-      let node = getSelectedNode()
+      this.closeAlert()
       let html = ''
+      restoreCursor(this)
+      let node = getSelectedNode()
+      // console.log(node)
       if (node.className === editorElement().className ||
           node.className.startsWith('smeditor')) {
+        document.execCommand('insertHTML', false, `<${size}><span><br></span></${size}>`)
         return false
       }
-      this.closeAlert()
-      restoreCursor(this)
       if (size.startsWith('H')) {
         if (node.localName.startsWith('h') && size === '正文') {
           html = `<p>${node.innerHTML}</p>`
