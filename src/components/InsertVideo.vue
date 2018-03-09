@@ -3,7 +3,7 @@
     <div class="insert-video-box">
       <span class="cancel" @click='cancelClick'>X</span>
       <p>插入视频</p>
-      <input type="text" name="text" placeholder="视频地址 <iframe src='...'></iframe>" v-model='text' v-on:keyup.enter='conformClick'>
+      <input type="text" name="text" placeholder="复制通用代码 <iframe src='...'></iframe>" v-model='text' v-on:keyup.enter='conformClick'>
       <button @click='conformClick'> 确认</button>
     </div>
   </div>
@@ -24,6 +24,9 @@ export default {
     cancelClick () {
       this.cancel()
     }
+  },
+  mounted () {
+    document.querySelector('.insert-video-box input').focus()
   }
 }
 </script>

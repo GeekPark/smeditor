@@ -362,7 +362,19 @@ export default {
     },
     // 插入引用
     insertQuote () {
-      if (getSelectedNode().className !== 'blockquote') {
+      let node = getSelectedNode()
+      // console.log(node)
+      if (node.localName === 'blockquote') {
+        let str = node.innerHTML
+        node.parentNode.outerHTML = ''
+        document.execCommand('insertHTML', false, `<p>${str}</p>`)
+      } else if (node.innerHTML.length > 0 &&
+        node.className !== 'smeditor' &&
+        node.className !== editorElement().className &&
+        node.className !== 'blockquote') {
+        document.execCommand('insertHTML', false, `<div class="blockquote"><blockquote style="color: #B2B2B2; padding-left: 15px; border-left: 5px solid #B2B2B2; margin-top: 0px; margin-bottom: 0px;">${node.innerHTML}</blockquote></div>`)
+        node.outerHTML = ''
+      } else {
         document.execCommand('insertHTML', false, `<div class="blockquote"><blockquote style="color: #B2B2B2; padding-left: 15px; border-left: 5px solid #B2B2B2; margin-top: 0px; margin-bottom: 0px;"><span><br></span></blockquote></div>`)
       }
     },
