@@ -1,6 +1,6 @@
 <template>
   <div class="smeditor" id="smeditor">
-    <div class="buttons">
+    <div class="buttons" :class="buttonsBarFixed == true ? 'isFixed' :''">
       <button class='undo' @click='undo' v-on:mouseover.stop='mouseover($event)' title="撤销">
         <img :src="icons.undo"></img>
       </button>
@@ -112,9 +112,6 @@ const remove = function (arr, val) {
     arr.splice(index, 1)
   }
 }
-const focus = function (el) {
-  document.querySelector(el).focus()
-}
 
 const editorElement = function () {
   return document.querySelector('.smeditor .input-area')
@@ -158,7 +155,8 @@ export default {
       // 光标
       cursor: {},
       // 鼠标选中节点
-      selectNode: {}
+      selectNode: {},
+      buttonsBarFixed: false
     }
   },
   methods: {
@@ -433,6 +431,16 @@ export default {
   mounted () {
     setTimeout(() => {
       document.execCommand('insertHTML', false, '<p><span></br></span></p>')
+      editorElement().focus()
+      window.addEventListener('scroll', () => {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        var offsetTop = document.querySelector('.smeditor').offsetTop
+        if (scrollTop > offsetTop) {
+          this.buttonsBarFixed = true
+        } else {
+          this.buttonsBarFixed = false
+        }
+      })
     }, 500)
     addEvents(this)
   }
@@ -442,7 +450,6 @@ function addEvents (self) {
   editorElement().onfocus = function (event) {
     self.closeAlert()
   }
-  focus('.input-area')
   // 回车事件
   editorElement().onkeypress = function (event) {
     const el = getSelectedNode()
@@ -570,6 +577,13 @@ function restoreCursor (self) {
   width: 100%;
   padding: 10px 0;
   background-color: rgba(240,240,240, 1);
+  transition: position 0.3s;
+}
+
+.smeditor .isFixed {
+  position: fixed;
+  top: 0px;
+  width: 70%;
 }
 
 .smeditor .buttons button {

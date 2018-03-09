@@ -4,7 +4,9 @@
       <span>(石墨文档编辑器)</span>
     </div>
     <div class="bg"></div>
-    <smeditor class="smeditor-wrapper" :config='config'></smeditor>
+    <div class="smeditor-wrapper">
+      <smeditor :config='config'></smeditor>
+    </div>
     <vfooter></vfooter>
   </div>
 </template>
