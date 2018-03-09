@@ -1,6 +1,6 @@
 <template>
   <div class="smeditor" id="smeditor">
-    <div class="buttons">
+    <div class="buttons" :class="buttonsBarFixed == true ? 'isFixed' :''">
       <button class='undo' @click='undo' v-on:mouseover.stop='mouseover($event)' title="撤销">
         <img :src="icons.undo"></img>
       </button>
@@ -112,9 +112,6 @@ const remove = function (arr, val) {
     arr.splice(index, 1)
   }
 }
-const focus = function (el) {
-  document.querySelector(el).focus()
-}
 
 const editorElement = function () {
   return document.querySelector('.smeditor .input-area')
@@ -158,7 +155,8 @@ export default {
       // 光标
       cursor: {},
       // 鼠标选中节点
-      selectNode: {}
+      selectNode: {},
+      buttonsBarFixed: false
     }
   },
   methods: {
@@ -364,7 +362,19 @@ export default {
     },
     // 插入引用
     insertQuote () {
-      if (getSelectedNode().className !== 'blockquote') {
+      let node = getSelectedNode()
+      // console.log(node)
+      if (node.localName === 'blockquote') {
+        let str = node.innerHTML
+        node.parentNode.outerHTML = ''
+        document.execCommand('insertHTML', false, `<p>${str}</p>`)
+      } else if (node.innerHTML.length > 0 &&
+        node.className !== 'smeditor' &&
+        node.className !== editorElement().className &&
+        node.className !== 'blockquote') {
+        document.execCommand('insertHTML', false, `<div class="blockquote"><blockquote style="color: #B2B2B2; padding-left: 15px; border-left: 5px solid #B2B2B2; margin-top: 0px; margin-bottom: 0px;">${node.innerHTML}</blockquote></div>`)
+        node.outerHTML = ''
+      } else {
         document.execCommand('insertHTML', false, `<div class="blockquote"><blockquote style="color: #B2B2B2; padding-left: 15px; border-left: 5px solid #B2B2B2; margin-top: 0px; margin-bottom: 0px;"><span><br></span></blockquote></div>`)
       }
     },
@@ -432,8 +442,18 @@ export default {
   },
   mounted () {
     setTimeout(() => {
+      editorElement().focus()
       document.execCommand('insertHTML', false, '<p><span></br></span></p>')
-    }, 500)
+      window.addEventListener('scroll', () => {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        var offsetTop = document.querySelector('.smeditor').offsetTop
+        if (scrollTop > offsetTop) {
+          this.buttonsBarFixed = true
+        } else {
+          this.buttonsBarFixed = false
+        }
+      })
+    }, 100)
     addEvents(this)
   }
 }
@@ -442,7 +462,6 @@ function addEvents (self) {
   editorElement().onfocus = function (event) {
     self.closeAlert()
   }
-  focus('.input-area')
   // 回车事件
   editorElement().onkeypress = function (event) {
     const el = getSelectedNode()
@@ -570,6 +589,13 @@ function restoreCursor (self) {
   width: 100%;
   padding: 10px 0;
   background-color: rgba(240,240,240, 1);
+  transition: position 0.3s;
+}
+
+.smeditor .isFixed {
+  position: fixed;
+  top: 0px;
+  width: 70%;
 }
 
 .smeditor .buttons button {

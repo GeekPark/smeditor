@@ -1,6 +1,6 @@
 {
   "name": "smeditor",
-  "version": "0.1.6",
+  "version": "0.1.9",
   "description": "smeditor",
   "author": "eric <github@ericjj.com>",
   "scripts": {
@@ -9,6 +9,7 @@
     "lint": "eslint --ext .js,.vue src",
     "pages": "node build/build.js",
     "build": "webpack --config build/webpack.smeditor.conf.js",
+    "d": "npm run build && npm publish && npm run gp",
     "gp": "./gp.sh"
   },
   "main": "release/smeditor.js",
