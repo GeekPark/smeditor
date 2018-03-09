@@ -430,8 +430,8 @@ export default {
   },
   mounted () {
     setTimeout(() => {
-      document.execCommand('insertHTML', false, '<p><span></br></span></p>')
       editorElement().focus()
+      document.execCommand('insertHTML', false, '<p><span></br></span></p>')
       window.addEventListener('scroll', () => {
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
         var offsetTop = document.querySelector('.smeditor').offsetTop
@@ -441,7 +441,7 @@ export default {
           this.buttonsBarFixed = false
         }
       })
-    }, 500)
+    }, 100)
     addEvents(this)
   }
 }
