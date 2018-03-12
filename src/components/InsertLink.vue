@@ -3,8 +3,8 @@
     <div class="insert-link-box">
       <span class="cancel" @click='cancelClick'>X</span>
       <p>插入链接</p>
-      <input type="text" name="link" placeholder="链接地址" v-model='link'>
       <input type="text" name="text" placeholder="链接文本" v-model='text' v-on:keyup.enter='conformClick'>
+      <input type="text" name="link" placeholder="链接地址" v-model='link'>
       <button @click='conformClick'> 确认</button>
     </div>
   </div>
@@ -18,13 +18,19 @@ export default {
       text: ''
     }
   },
-  props: ['insertLink', 'cancel'],
+  props: ['insertLink', 'cancel', 'propText'],
   methods: {
     conformClick () {
       this.insertLink(this.link, this.text)
     },
     cancelClick () {
       this.cancel()
+    }
+  },
+  watch: {
+    'propText': function () {
+      this.text = this.propText
+      this.link = this.propLink
     }
   }
 }

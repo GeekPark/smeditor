@@ -67,10 +67,8 @@
         <insert-options
          v-show="isInsertShow"
          :insertImage="insertImageClick"
-         :insertLink="insertLink"
          :insertLine="insertLine"
          :insertVideo="insertVideoClick"
-         :insertQuote="insertQuote"
          :insertBlock="insertBlock"
          :uploadImages='uploadImages'
          ></insert-options>
@@ -93,8 +91,14 @@
       >
     </div>
     <p class="select-words" v-show="selectWords">{{selectWords.length}}个字</p>
-    <insert-link :insertLink='insertLink' v-if='isInsertLinkShow' :cancel='insertLinkCancel'></insert-link>
-    <insert-video :insertVideo='insertVideo' v-if='isInsertVideoShow' :cancel='insertVideoCancel'></insert-video>
+    <insert-link
+      :insertLink='insertLink'
+      :propText='insertLinkSection.text'
+      :propLink='insertLinkSection.link'
+      v-show='isInsertLinkShow'
+      :cancel='insertLinkCancel'
+    ></insert-link>
+    <insert-video :insertVideo='insertVideo' v-show='isInsertVideoShow' :cancel='insertVideoCancel'></insert-video>
   </div>
 </template>
 
@@ -156,7 +160,14 @@ export default {
       cursor: {},
       // 鼠标选中节点
       selectNode: {},
-      buttonsBarFixed: false
+      buttonsBarFixed: false,
+      insertLinkSection: {
+        node: '',
+        start: 0,
+        end: 0,
+        text: '',
+        link: ''
+      }
     }
   },
   methods: {
@@ -319,12 +330,18 @@ export default {
     // 点击插入链接
     insertLinkClick () {
       this.closeAlert()
+      this.insertLinkSection.text = window.getSelection().toString()
       getCursor(this)
       this.isInsertLinkShow = true
     },
     // 插入链接
     insertLink (url, title) {
       restoreCursor(this)
+      const node = getSelectedNode()
+      if (node.localName === 'a') {
+        node.outerHTML = `<a href=${url} target="_blank">${title}</>`
+        return false
+      }
       document.execCommand('insertHTML', false, `<a href=${url} target="_blank">${title}</>`)
     },
     // 取消插入链接
@@ -525,6 +542,10 @@ function execCmd (self, callback) {
 function getCursor (self) {
   self.cursor = window.getSelection().getRangeAt(0)
 }
+
+// function delHtmlTag (str) {
+//   return str.replace(/<[^>]+>/g, '')
+// }
 
 function isImageCaption (el) {
   return el.className === 'image-caption'
