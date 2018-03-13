@@ -1,68 +1,68 @@
 <template>
   <div class="smeditor" id="smeditor">
     <div class="buttons" :class="buttonsBarFixed == true ? 'isFixed' :''">
-      <button class='undo' @click='undo' v-on:mouseover.stop='mouseover($event)' title="撤销">
+      <button type="button" class='undo' @click='undo' v-on:mouseover.stop='mouseover($event)' title="撤销">
         <img :src="icons.undo"></img>
       </button>
-      <button class='redo' @click='redo' v-on:mouseover.stop='mouseover($event)' title="重做">
+      <button type="button" class='redo' @click='redo' v-on:mouseover.stop='mouseover($event)' title="重做">
         <img :src='icons.redo'></img>
       </button>
-      <button class='remove-format'
+      <button type="button" class='remove-format'
               title="清除"
               @click='removeFormat'
               v-on:mouseover.stop='mouseover($event)'>
         <img :src='icons.removeFormat'></img>
       </button>
-      <button class='set-font' @click.stop="titleButtonClick">
+      <button type="button" class='set-font' @click.stop="titleButtonClick">
         <span>H</span>
          <title-picker v-bind:titlePickerClick="titlePickerClick" v-show="isTitlePickerShow"></title-picker>
       </button>
-      <!-- <button class="font-size"
+      <!-- <button type="button" class="font-size"
               title="字号"
               @click="isFontSizePickerShow = !isFontSizePickerShow"
               v-on:mouseover.stop='mouseover($event)'>
         <span> {{fontSize}} </span>
         <font-size-picker v-bind:FontSizePickerClick="FontSizePickerClick" v-show="isFontSizePickerShow"></font-size-picker> -->
       </button>
-      <button v-for='(name, index) in basicIcons'
+      <button type="button" v-for='(name, index) in basicIcons'
               @click='basicStyleClick(name)'
               v-bind:class="{buttonsActive: styles.indexOf(name) > -1}"
               v-on:mouseover.stop='mouseover($event)'
               v-bind:title='basicStyleNames[Object.keys(basicIcons).indexOf(name)]'>
         <img :src='icons[name]'></img>
       </button>
-      <button v-on:mouseover.stop='mouseover($event)' title="文本颜色">
+      <button type="button" v-on:mouseover.stop='mouseover($event)' title="文本颜色">
         <img :src='icons.color' @click="isColorPickerShow = !isColorPickerShow"></img>
         <color-picker :ColorPickerClick="colorPickerClick" v-show="isColorPickerShow"></color-picker>
       </button>
-      <button class='indent' @click='indent' v-on:mouseover.stop='mouseover($event)' title="增加缩进">
+      <button type="button" class='indent' @click.stop='indent' v-on:mouseover.stop='mouseover($event)' title="增加缩进">
         <img :src='icons.indent'></img>
       </button>
-      <button class='outdent' @click='outdent' v-on:mouseover.stop='mouseover($event)' title="减少缩进">
+      <button type="button" class='outdent' @click.stop='outdent' v-on:mouseover.stop='mouseover($event)' title="减少缩进">
         <img :src='icons.outdent'></img>
       </button>
-      <button class='insert-ol' @click='insertList("OrderedList")' v-on:mouseover.stop='mouseover($event)' title="有序列表">
+      <button type="button" class='insert-ol' @click='insertList("OrderedList")' v-on:mouseover.stop='mouseover($event)' title="有序列表">
         <img :src='icons.listOrdered'></img>
       </button>
-      <button class='insert-ul' @click='insertList("UnorderedList")' v-on:mouseover.stop='mouseover($event)' title="无序列表">
+      <button type="button" class='insert-ul' @click='insertList("UnorderedList")' v-on:mouseover.stop='mouseover($event)' title="无序列表">
         <img :src='icons.listUnordered'></img>
       </button>
-      <button class='align-left' @click='align("Left")' v-on:mouseover.stop='mouseover($event)' title="左对齐">
+      <button type="button" class='align-left' @click='align("Left")' v-on:mouseover.stop='mouseover($event)' title="左对齐">
         <img :src='icons.alignLeft'></img>
       </button>
-      <button class='align-center' @click='align("Center")' v-on:mouseover.stop='mouseover($event)' title="居中对齐">
+      <button type="button" class='align-center' @click='align("Center")' v-on:mouseover.stop='mouseover($event)' title="居中对齐">
         <img :src='icons.alignCenter'></img>
       </button>
-      <button class='align-right' @click='align("Right")'  v-on:mouseover.stop='mouseover($event)' title='右对齐'>
+      <button type="button" class='align-right' @click='align("Right")'  v-on:mouseover.stop='mouseover($event)' title='右对齐'>
         <img :src='icons.alignRight'></img>
       </button>
-      <button class="insert-quote" @click='insertQuote'>
+      <button type="button" class="insert-quote" @click='insertQuote'>
         <img :src="icons.insertQuote">
       </button>
-      <button class='insert-link' @click='insertLinkClick'  v-on:mouseover.stop='mouseover($event)' title='插入链接'>
+      <button type="button" class='insert-link' @click='insertLinkClick'  v-on:mouseover.stop='mouseover($event)' title='插入链接'>
         <img :src='icons.insertLink'></img>
       </button>
-      <button class='insert-options' @click="isInsertShow = !isInsertShow">
+      <button type="button" class='insert-options' @click="isInsertShow = !isInsertShow">
         <span class="insert-options-label"></span>
         <insert-options
          v-show="isInsertShow"
@@ -73,9 +73,9 @@
          :uploadImages='uploadImages'
          ></insert-options>
       </button>
-      <button class="backup" @click='backupClick' v-on:mouseover.stop='mouseover($event)' title="Ctrl + S"></button>
-      <button class="restore" @click='restoreClick'></button>
-      <button class="preview" @click='previewClick' v-on:mouseover.stop='mouseover($event)' title="Ctrl + P"></button>
+      <button type="button" class="backup" @click='backupClick' v-on:mouseover.stop='mouseover($event)' title="Ctrl + S"></button>
+      <button type="button" class="restore" @click='restoreClick'></button>
+      <button type="button" class="preview" @click='previewClick' v-on:mouseover.stop='mouseover($event)' title="Ctrl + P"></button>
     </div>
     <div
       contenteditable="true"
@@ -237,12 +237,13 @@ export default {
       let html = ''
       restoreCursor(this)
       let node = getSelectedNode()
-      // console.log(node)
+      // console.log(node, node.localName)
       if (node.className === editorElement().className ||
           node.className.startsWith('smeditor')) {
         document.execCommand('insertHTML', false, `<${size}><span><br></span></${size}>`)
         return false
       }
+      // console.log(size)
       if (size.startsWith('H')) {
         if (node.localName.startsWith('h') && size === '正文') {
           html = `<p>${node.innerHTML}</p>`
@@ -252,8 +253,9 @@ export default {
       } else { // 正文
         html = `<p>${node.innerHTML}</p>`
       }
-      document.execCommand('insertHTML', false, html)
+      restoreCursor(this)
       node.outerHTML = ''
+      document.execCommand('insertHTML', false, html)
       // const range = document.createRange()
       // range.selectNodeContents(node)
       // range.collapse(false)
@@ -384,7 +386,7 @@ export default {
       if (node.localName === 'blockquote') {
         let str = node.innerHTML
         node.parentNode.outerHTML = ''
-        document.execCommand('insertHTML', false, `<p>${str}</p>`)
+        document.execCommand('insertHTML', false, `<p>${str}</p><br>`)
       } else if (node.innerHTML.length > 0 &&
         node.className !== 'smeditor' &&
         node.className !== editorElement().className &&
@@ -462,6 +464,9 @@ export default {
       editorElement().focus()
       document.execCommand('insertHTML', false, '<p><span></br></span></p>')
       window.addEventListener('scroll', () => {
+        if (this.config.onScroll) {
+          this.config.onScroll()
+        }
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
         var offsetTop = document.querySelector('.smeditor').offsetTop
         if (scrollTop > offsetTop) {
@@ -600,6 +605,9 @@ function restoreCursor (self) {
   box-shadow: 0 1px 6px #ccc;
   background-color: #ffffff;
   border-color: transparent;
+  letter-spacing: 1.5px;
+  color: rgb(44, 62, 80);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .smeditor .buttons {

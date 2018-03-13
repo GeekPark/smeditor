@@ -36,7 +36,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 1);
   height: 100%;
   width: 100%;
   display: flex;
@@ -50,7 +50,7 @@ export default {
   border-radius: 6px;
   margin: 0 auto 24px;
   background-clip: padding-box;
-  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,.9);
 }
 .insert-video p {
   text-align: center;

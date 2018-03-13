@@ -23,6 +23,7 @@ const config = {
   uploadName: 'upload_file',
   // 其他参数
   uploadParams: {},
+  sticky: true,
   // 上传成功回调
   uploadCallback: (data) => {
     // console.log(data)
