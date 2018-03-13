@@ -237,20 +237,30 @@ export default {
       let html = ''
       restoreCursor(this)
       let node = getSelectedNode()
-      // console.log(node, node.localName)
+      console.log(node, node.localName)
+      // 一共分六种情况
+      // 1. empty <h>
+      // 2. empty <p>
       if (node.className === editorElement().className ||
           node.className.startsWith('smeditor')) {
-        document.execCommand('insertHTML', false, `<${size}><span><br></span></${size}>`)
+        if (size === '正文') {
+          document.execCommand('insertHTML', false, `<p><span><br></span></p>`)
+        } else {
+          document.execCommand('insertHTML', false, `<${size}><span><br></span></${size}>`)
+        }
         return false
       }
-      // console.log(size)
-      if (size.startsWith('H')) {
-        if (node.localName.startsWith('h') && size === '正文') {
-          html = `<p>${node.innerHTML}</p>`
-        } else {
-          html = `<${size}>${node.innerHTML}</${size}>`
-        }
-      } else { // 正文
+      // 3 h -> p
+      // 4 h -> h+
+      // 5 p -> h
+      // 6 p -> p
+      if (node.localName.startsWith('h') && size === '正文') {
+        html = `<p>${node.innerHTML}</p>`
+      } else if (node.localName.startsWith('h') && size.startsWith('H')) {
+        html = `<${size}>${node.innerHTML}</${size}>`
+      } else if (node.innerHTML.length > 0 && node.localName.startsWith('h') === false && size !== '正文') {
+        html = `<${size}>${node.innerHTML}</${size}>`
+      } else {
         html = `<p>${node.innerHTML}</p>`
       }
       restoreCursor(this)
@@ -383,10 +393,21 @@ export default {
     insertQuote () {
       let node = getSelectedNode()
       // console.log(node)
-      if (node.localName === 'blockquote') {
+      if (node.className === 'input-area') {
+        return false
+      }
+      if (node.localName === 'blockquote' && node.parentNode.className !== 'input-area') {
         let str = node.innerHTML
+        console.log(node.parentNode)
         node.parentNode.outerHTML = ''
-        document.execCommand('insertHTML', false, `<p>${str}</p><br>`)
+        document.execCommand('insertHTML', false, `<br><p>${str}</p>`)
+        this.insertEmptyP()
+      } else if (node.className === 'blockquote') {
+        let str = node.innerHTML
+        console.log(str)
+        document.execCommand('insertHTML', false, `<p>${str}</p>`)
+        this.insertEmptyP()
+        node.outerHTML = ''
       } else if (node.innerHTML.length > 0 &&
         node.className !== 'smeditor' &&
         node.className !== editorElement().className &&
@@ -457,12 +478,15 @@ export default {
         this.isInsertVideoShow = false
         this.isTitlePickerShow = false
       }, 200)
+    },
+    insertEmptyP () {
+      document.execCommand('insertHTML', false, '<p><span></br></span></p>')
     }
   },
   mounted () {
     setTimeout(() => {
       editorElement().focus()
-      document.execCommand('insertHTML', false, '<p><span></br></span></p>')
+      this.insertEmptyP()
       window.addEventListener('scroll', () => {
         if (this.config.onScroll) {
           this.config.onScroll()
@@ -521,6 +545,9 @@ function addEvents (self) {
         isImageCaption(el)) {
       el.innerHTML = ''
       return false
+    }
+    if (getSelectedNode().innerHTML.length === 0) {
+      document.execCommand('insertHTML', false, '<p><span></br></span></p>')
     }
   }
   editorElement().addEventListener('paste', function (event) {
