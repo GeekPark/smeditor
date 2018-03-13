@@ -33,10 +33,10 @@ export default {
 
 <style type="text/css">
 .insert-video {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 1);
   height: 100%;
   width: 100%;
   display: flex;

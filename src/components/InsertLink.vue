@@ -38,10 +38,10 @@ export default {
 
 <style type="text/css">
 .insert-link {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 0px;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 1);
   height: 100%;
   width: 100%;
   display: flex;
