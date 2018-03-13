@@ -161,6 +161,7 @@ export default {
       // 鼠标选中节点
       selectNode: {},
       buttonsBarFixed: false,
+      selectImageNode: null,
       insertLinkSection: {
         node: '',
         start: 0,
@@ -322,8 +323,9 @@ export default {
               self.config.uploadFailed(xhr.responseText)
             }
             // 测试网站, 模拟上传
-            if (location.href.indexOf('ericjj.com/smeditor.github.io') > 0) {
-              const imgUrl = self.config.uploadCallback('')
+            if (location.href.indexOf('ericjj.com/smeditor.github.io') > 0 ||
+                location.href.indexOf('127.0.0.1') > 0) {
+              const imgUrl = self.config.uploadCallback({})
               success(imgUrl)
             }
           }
@@ -338,6 +340,22 @@ export default {
                 <br>
                 <div class="image-caption" style="min-width: 20%; max-width: 80%; height: 35px; display: inline-block; padding: 10px 10px 0px 10px; margin: 0 auto; border-bottom: 1px solid #d9d9d9; font-size: 16px; color: #999; content: "";"></div>
               </div>`)
+      let last = null
+      editorElement().querySelectorAll('img').forEach(el => {
+        el.onclick = () => {
+          if (el.className.indexOf('img-onclick') < 0) {
+            if (last !== null) {
+              last.className = last.className.replace('img-onclick', '')
+            }
+            el.className += ' img-onclick'
+            this.selectImageNode = el
+            last = el
+          } else {
+            el.className = el.className.replace('img-onclick', '')
+            this.selectImageNode = null
+          }
+        }
+      })
     },
     // 点击插入链接
     insertLinkClick () {
@@ -535,6 +553,16 @@ function addEvents (self) {
   }
   // 删除事件
   editorElement().onkeydown = function (event) {
+    if (self.selectImageNode) {
+      console.log(self.selectImageNode.parentNode)
+      if (self.selectImageNode.parentNode &&
+        self.selectImageNode.parentNode.className === 'image-desc') {
+        self.selectImageNode.parentNode.outerHTML = ''
+        return false
+      }
+      self.selectImageNode.outerHTML = ''
+      return false
+    }
     const el = getSelectedNode()
     if (event.keyCode === 8 && isImageDesc(el)) {
       el.innerHTML = '<p></p>'
@@ -702,6 +730,10 @@ function restoreCursor (self) {
   height: auto;
   vertical-align: middle;
   border: 0;
+}
+
+.smeditor .img-onclick {
+  border: 5px solid #87AA99;
 }
 
 .smeditor p {
