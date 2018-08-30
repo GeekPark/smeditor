@@ -8,7 +8,7 @@
 
 > ✎ 基于 Vue.js 2.0+ 石墨文档样式的富文本编辑器, 轻量, 快速, 优雅
 
-在线预览: https://ericjj.com/smeditor.github.io/
+在线预览: http://geekpark.github.io/smeditor.github.io
 
 反馈: https://github.com/ericjjj/smeditor/issues
 
