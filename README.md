@@ -10,12 +10,6 @@
 
 在线预览: http://geekpark.github.io/smeditor.github.io
 
-反馈: https://github.com/ericjjj/smeditor/issues
-
-联系: github@ericjj.com
-
-关于作者: https://ericjj.com/about/
-
 
 ## 起因
 之前一直使用的 [wangEditor](https://www.kancloud.cn/wangfupeng/wangeditor3/332599) 不能满足我司编辑和PM需求, 使用过程中也出了很多问题,   [simditor](http://simditor.tower.im/) 体验之后效果不是很好, 并且也不维护了; 目前的[后台管理系统](https://github.com/GeekPark/gpk_admin)技术选型已经转向了 Vue, 所以就有了这个轮子;
@@ -86,8 +80,3 @@ npm run build
 
 npm run gp
 ```
-
-## 打赏
-
-如果你感觉有收获，欢迎给我打赏 ———— 以激励我更多输出优质开源内容
-<img src="https://ws4.sinaimg.cn/large/006tNc79ly1fnyqbykokqj30w00w0wh9.jpg" width = "50%" />
