@@ -26,8 +26,7 @@ const config = {
   sticky: true,
   // 上传成功回调
   uploadCallback: (data) => {
-    // console.log(data)
-    return data.image.url || 'https://ws1.sinaimg.cn/large/006tNc79gy1fp1rdw7e90j30rs0rsacb.jpg'
+    return 'https://ws2.sinaimg.cn/large/006tNc79ly1fo48pgf714j30eh08rdg5.jpg'
   },
   // 上传失败回调, 可选
   uploadFailed: (err) => {
